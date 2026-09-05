@@ -147,7 +147,10 @@
   </div>
 
   <script>
+    let selectedRole = 'farmer';
+
     function switchTab(role) {
+      selectedRole = role;
       const tabs = document.querySelectorAll('.tab');
       tabs.forEach(tab => tab.classList.remove('active'));
       if (role === 'farmer') tabs[0].classList.add('active');
@@ -165,10 +168,40 @@
       }
     }
 
-    document.getElementById('signupForm').addEventListener('submit', function(e) {
+    document.getElementById('signupForm').addEventListener('submit', async function(e) {
       e.preventDefault();
-      alert("Account created! Redirecting to login page...");
-      window.location.href = "login.html";
+      
+      const fullname = document.getElementById('fullname').value;
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+
+      if (password !== confirmPassword) {
+        alert("Passwords do not match!");
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/auth/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ fullname, email, password, role: selectedRole })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          alert("Account created successfully! Redirecting to login...");
+          window.location.href = "login.html";
+        } else {
+          alert("Error: " + (data.error || "Failed to create account"));
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Failed to connect to the server. Please verify the backend is running.");
+      }
     });
   </script>
 </body>

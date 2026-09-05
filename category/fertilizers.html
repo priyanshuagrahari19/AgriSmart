@@ -72,55 +72,42 @@
   </div>
   <h1 style="text-align:center; color:#2d572c;">Fertilizers</h1>
 
-  <div class="image-gallery">
-    <!-- Card 1 -->
-    <div class="card">
-      <a href="urea.html" target="_blank">
-        <img src="resource image/urea.jpg" alt="Urea">
-        <div class="caption">Urea</div>
-      </a>
+  <div class="image-gallery" id="gallery">
+    <div style="text-align: center; width: 100%; grid-column: span 3; padding: 40px 0;">
+      <i class="fas fa-spinner fa-spin" style="font-size: 30px; color: #388e3c;"></i>
+      <p style="margin-top: 10px;">Loading fertilizers...</p>
     </div>
-
-    <!-- Card 2 -->
-    <div class="card">
-      <a href="dap.html" target="_blank">
-        <img src="resource image/dap.jpg" alt="DAP">
-        <div class="caption">DAP (Di-Ammonium Phosphate)</div>
-      </a>
-    </div>
-
-    <!-- Card 3 -->
-    <div class="card">
-      <a href="mop.html" target="_blank">
-        <img src="resource image/mop.jpg" alt="MOP">
-        <div class="caption">MOP (Muriate of Potash)</div>
-      </a>
-    </div>
-
-    <!-- Card 4 -->
-    <div class="card">
-      <a href="npk.html" target="_blank">
-        <img src="resource image/npk.jpg" alt="NPK">
-        <div class="caption">NPK Fertilizer</div>
-      </a>
-    </div>
-
-    <!-- Card 5 -->
-    <div class="card">
-      <a href="organic.html" target="_blank">
-        <img src="resource image/organic.jpg" alt="Organic Fertilizer">
-        <div class="caption">Organic Fertilizer</div>
-      </a>
-    </div>
-     <!-- Card 5 -->
-    <div class="card">
-      <a href="bio.html" target="_blank">
-        <img src="resource image/bio.jpg" alt="Organic Fertilizer">
-        <div class="caption">Bio Fertilizer</div>
-      </a>
-    </div>
-     
   </div>
-  
+
+  <script>
+    async function loadProducts() {
+      try {
+        const res = await fetch('/api/products?category=fertilizers');
+        const products = await res.json();
+        const gallery = document.getElementById('gallery');
+        gallery.innerHTML = '';
+        
+        if (products.length === 0) {
+          gallery.innerHTML = '<p style="text-align:center; grid-column: span 3;">No fertilizer products available currently.</p>';
+          return;
+        }
+
+        products.forEach(p => {
+          gallery.innerHTML += `
+            <div class="card">
+              <a href="detail.html?id=${p.id}">
+                <img src="${p.image_url}" alt="${p.name}">
+                <div class="caption">${p.name}<br><span style="color:#e65100; font-size:14px;">₹${p.price}</span></div>
+              </a>
+            </div>
+          `;
+        });
+      } catch (err) {
+        console.error(err);
+        document.getElementById('gallery').innerHTML = '<p style="text-align:center; grid-column: span 3; color:red;">Failed to load products. Make sure server is running.</p>';
+      }
+    }
+    loadProducts();
+  </script>
 </body>
 </html>

@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AgriSmart Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <style>
+    :root {
+      --primary: #2e7d32;
+      --primary-light: #51b356;
+      --primary-dark: #1b5e20;
+      --bg-color: #f7f9fc;
+      --chat-bg: #ffffff;
+      --text-main: #333333;
+      --text-muted: #888888;
+      --user-msg: #dcf8c6;
+      --bot-msg: #f1f3f4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+
+    body {
+      background-color: var(--bg-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-image: linear-gradient(135deg, #f0ffd5 0%, var(--bg-color) 100%);
+    }
+
+    .main-nav-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      padding: 10px 15px;
+      background: var(--primary);
+      color: white;
+      text-decoration: none;
+      border-radius: 20px;
+      font-weight: 500;
+      transition: all 0.3s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    .main-nav-btn:hover { background: var(--primary-dark); transform: scale(1.05); }
+
+    .chat-container {
+      width: 100%;
+      max-width: 450px;
+      height: 85vh;
+      border-radius: 20px;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      background: var(--chat-bg);
+      overflow: hidden;
+      border: 1px solid rgba(46, 125, 50, 0.2);
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      z-index: 10;
+    }
+
+    .chat-header .avatar {
+      width: 45px;
+      height: 45px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      color: var(--primary);
+    }
+
+    .chat-header-info h2 { font-size: 1.2rem; font-weight: 700; }
+    .chat-header-info p { font-size: 0.85rem; opacity: 0.9; margin-top: 2px; }
+
+    .chat-body {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      background: url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="%232e7d32" fill-opacity="0.05"/></svg>') repeat;
+    }
+
+    .chat-body::-webkit-scrollbar { width: 6px; }
+    .chat-body::-webkit-scrollbar-thumb { background: rgba(46, 125, 50, 0.2); border-radius: 10px; }
+
+    .msg {
+      max-width: 80%;
+      padding: 12px 18px;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      position: relative;
+      animation: fadeIn 0.3s ease;
+      word-wrap: break-word;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .user-msg {
+      background: var(--user-msg);
+      color: var(--text-main);
+      align-self: flex-end;
+      border-bottom-right-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .bot-msg {
+      background: var(--bot-msg);
+      color: var(--text-main);
+      align-self: flex-start;
+      border-bottom-left-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .typing-indicator {
+      display: none;
+      align-self: flex-start;
+      background: var(--bot-msg);
+      padding: 12px 18px;
+      border-radius: 20px;
+      border-bottom-left-radius: 5px;
+      gap: 5px;
+      align-items: center;
+    }
+    .typing-indicator.active { display: flex; }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      background: var(--text-muted);
+      border-radius: 50%;
+      animation: bounce 1.4s infinite ease-in-out both;
+    }
+    .dot:nth-child(1) { animation-delay: -0.32s; }
+    .dot:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    .chat-footer {
+      padding: 15px 20px;
+      background: white;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .chat-footer input {
+      flex: 1;
+      padding: 14px 20px;
+      border: 1px solid #e0e0e0;
+      border-radius: 30px;
+      outline: none;
+      font-size: 0.95rem;
+      transition: all 0.3s;
+      background: var(--bg-color);
+    }
+
+    .chat-footer input:focus {
+      border-color: var(--primary-light);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(81, 179, 86, 0.1);
+    }
+
+    .chat-footer button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2rem;
+      transition: all 0.3s;
+      box-shadow: 0 4px 10px rgba(46, 125, 50, 0.3);
+    }
+
+    .chat-footer button:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+    
+    .chat-footer button:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+  </style>
+</head>
+<body>
+
+<a href="/mai/inde.html" class="main-nav-btn"><i class="fas fa-arrow-left"></i> Back to Site</a>
+
+<div class="chat-container">
+
+  <div class="chat-header">
+    <div class="avatar">
+      <i class="fas fa-leaf"></i>
+    </div>
+    <div class="chat-header-info">
+      <h2>Krishi Sahayak</h2>
+      <p>AgriSmart AI Assistant 🌾</p>
+    </div>
+  </div>
+
+  <div class="chat-body" id="chat-body">
+    <!-- Messages go here -->
+    <div class="typing-indicator" id="typing-indicator">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <div class="chat-footer">
+    <input type="text" id="user-input" placeholder="Apna sawal yahan likhiye..." onkeypress="handleKeypress(event)" />
+    <button id="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+  </div>
+
+</div>
+
+<script>
+const chatBody = document.getElementById("chat-body");
+const typingIndicator = document.getElementById("typing-indicator");
+const sendBtn = document.getElementById("send-btn");
+const userInput = document.getElementById("user-input");
+
+function appendMessage(text, sender) {
+  const msgDiv = document.createElement("div");
+  msgDiv.className = `msg ${sender}-msg`;
+  msgDiv.innerHTML = text.replace(/\n/g, "<br>");
+  
+  // Insert before typing indicator
+  chatBody.insertBefore(msgDiv, typingIndicator);
+  scrollToBottom();
+}
+
+function scrollToBottom() {
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function handleKeypress(event) {
+  if (event.key === "Enter") {
+    sendMessage();
+  }
+}
+
+async function sendMessage() {
+  const message = userInput.value.trim();
+  if (!message) return;
+
+  // Append User message
+  appendMessage(message, "user");
+  userInput.value = "";
+  
+  // Disable UI and show typing
+  sendBtn.disabled = true;
+  userInput.disabled = true;
+  typingIndicator.classList.add("active");
+  scrollToBottom();
+
+  try {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ message: message })
+    });
+
+    const data = await res.json();
+    
+    typingIndicator.classList.remove("active");
+    appendMessage(data.reply || "Error parsing response.", "bot");
+
+  } catch (err) {
+    typingIndicator.classList.remove("active");
+    appendMessage("Server ya network me error hai. Kripya backend server start karein.", "bot");
+  } finally {
+    sendBtn.disabled = false;
+    userInput.disabled = false;
+    userInput.focus();
+  }
+}
+
+// Initial welcome message
+setTimeout(() => {
+  appendMessage("Namaste Kisan bhai! 🙏 Main aapka smart Krishi Sahayak hoon. Kheti, mitti, mausam ya fertilizer ke baare me koi bhi jankari ke liye poochein.", "bot");
+}, 500);
+</script>
+
+</body>
+</html>

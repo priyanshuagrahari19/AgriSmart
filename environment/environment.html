@@ -107,39 +107,71 @@
 
             <div class="card ecological-threats">
                 <div class="card-title">Ecological Threats & Alerts</div>
-                
-                <div class="alert-item warning">
-                    <div class="icon">
-                        <i class="fas fa-exclamation-circle"></i>
-                    </div>
-                    <div class="content">
-                        <h3>Pest Infestation Warning:</h3>
-                        <p>Fall Armyworm detected for maize fields. Take preventive action.</p>
+                <div id="alerts-container">
+                    <div style="text-align: center; padding: 20px;">
+                        <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #388e3c;"></i>
+                        <p style="margin-top: 10px;">Loading alerts...</p>
                     </div>
                 </div>
-                
-                <div class="alert-item risk">
-                    <div class="icon">
-                        <i class="fas fa-exclamation-triangle"></i>
-                    </div>
-                    <div class="content">
-                        <h3>Early Blight Risk:</h3>
-                        <p>High humidity increasing risk for potato crops. Monitor closely.</p>
-                    </div>
-                </div>
-                
-                <div class="alert-item success">
-                    <div class="icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <div class="content">
-                        <h3>No new major threats reported.</h3>
-                    </div>
-                </div>
-
             </div>
         </div>
     </main>
+
+    <script>
+        async function loadAlerts() {
+            try {
+                const res = await fetch("/api/alerts");
+                const alerts = await res.json();
+                const container = document.getElementById("alerts-container");
+                container.innerHTML = "";
+
+                if (alerts.length === 0) {
+                    container.innerHTML = `
+                        <div class="alert-item success">
+                            <div class="icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="content">
+                                <h3>No active threats reported.</h3>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                alerts.forEach(a => {
+                    let alertClass = "success";
+                    let alertIcon = "fa-info-circle";
+                    if (a.severity === "critical") {
+                        alertClass = "risk";
+                        alertIcon = "fa-exclamation-triangle";
+                    } else if (a.severity === "warning") {
+                        alertClass = "warning";
+                        alertIcon = "fa-exclamation-circle";
+                    } else if (a.severity === "info") {
+                        alertClass = "success";
+                        alertIcon = "fa-shield-alt";
+                    }
+
+                    container.innerHTML += `
+                        <div class="alert-item ${alertClass}" style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 15px; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                            <div class="icon" style="font-size: 20px;">
+                                <i class="fas ${alertIcon}"></i>
+                            </div>
+                            <div class="content" style="text-align: left;">
+                                <h3 style="margin: 0 0 5px 0; font-size: 16px;">${a.title}</h3>
+                                <p style="margin: 0; font-size: 14px; color: #555;">${a.description}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            } catch (err) {
+                console.error(err);
+                document.getElementById("alerts-container").innerHTML = "<p style='text-align:center; color:red;'>Failed to load environmental alerts.</p>";
+            }
+        }
+        loadAlerts();
+    </script>
 
 </body>
 </html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Product Details</title>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+   <link rel="stylesheet" href="urea.css">
+</head>
+<body>
+ 
+<div class="navbar-container">
+  <div class="wrapper">
+    <header class="header">
+      <!-- Logo -->
+      <div class="logo">
+        <img src="resource image/logo1.jpg" alt="Logo" />
+      </div>
+
+      <!-- Navigation Menu -->
+      <nav class="navbar">
+        <ul>
+          <li>
+            <a href="/mai/inde.html" class="active">
+              <i class="fas fa-home"></i><span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a href="/Description/description.html">
+              <i class="fas fa-circle-info"></i><span>Description</span>
+            </a>
+          </li>
+          <li>
+            <a href="/SIH Website/expert.html">
+              <i class="fas fa-user"></i><span>Expert</span>
+            </a>
+          </li>
+          <li>
+            <a href="/category/category.html">
+              <i class="fas fa-flask"></i><span>Resources</span>
+            </a>
+          </li>
+          <li>
+            <a href="/environment/environment.html">
+              <i class="fas fa-seedling"></i><span>Environment</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Search -->
+      <div class="search">
+        <input type="text" class="search_box" placeholder="Search" />
+        <i class="fas fa-search search_icon"></i>
+      </div>
+
+      <!-- User Profile Icons -->
+      <div class="user-profile">
+        <a href="/chatbot/chat.html"><i class="fas fa-comment-dots"></i></a>
+        <a href="#"><i class="fas fa-globe"></i></a>
+        <a href="#"><i class="fas fa-user-circle"></i></a>
+      </div>
+    </header>
+  </div>
+</div>
+
+  <div class="container" id="product-container" style="max-width: 600px; margin: 40px auto; padding: 20px; background: white; border-radius: 8px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+    <div style="text-align: center; padding: 20px;">
+      <i class="fas fa-spinner fa-spin" style="font-size: 40px; color: #388e3c;"></i>
+      <p style="margin-top: 10px;">Loading product details...</p>
+    </div>
+  </div>
+
+  <script>
+    async function loadProduct() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const id = urlParams.get('id');
+      if (!id) {
+        document.getElementById('product-container').innerHTML = '<h2 style="text-align:center; color:#c62828;">Product not found</h2>';
+        return;
+      }
+      try {
+        const res = await fetch(`/api/products/${id}`);
+        if (!res.ok) {
+          document.getElementById('product-container').innerHTML = '<h2 style="text-align:center; color:#c62828;">Product not found</h2>';
+          return;
+        }
+        const p = await res.json();
+
+        document.getElementById('product-container').innerHTML = `
+          <div class="product-image" style="text-align:center; margin-bottom:20px;">
+            <img src="${p.image_url}" alt="${p.name}" style="max-width:100%; height:250px; object-fit:contain; border-radius:8px;">
+          </div>
+          <h1 style="color:#2e7d32; font-size:24px; margin-bottom:10px;">${p.name}</h1>
+          <div class="details" style="font-size:15px; color:#444; line-height:1.6;">
+            <h2 style="font-size:18px; color:#333; margin-top:20px; border-bottom:1px solid #eee; padding-bottom:5px;">Product Description</h2>
+            <p>${p.description || 'No description available.'}</p>
+            
+            <h2 style="font-size:18px; color:#333; margin-top:20px; border-bottom:1px solid #eee; padding-bottom:5px;">Product Details</h2>
+            <ul style="list-style:none; padding:0; margin:10px 0;">
+              <li style="margin:5px 0;"><strong>Category:</strong> ${p.category.toUpperCase()}</li>
+              <li style="margin:5px 0;"><strong>Price:</strong> <span style="color:#e65100; font-weight:bold; font-size:18px;">₹${p.price}</span></li>
+              <li style="margin:5px 0;"><strong>SKU:</strong> ${p.sku}</li>
+              <li style="margin:5px 0;"><strong>Availability:</strong> ${p.stock_quantity > 0 ? `<span style="color:#2e7d32; font-weight:bold;">In Stock (${p.stock_quantity} available)</span>` : '<span style="color:#c62828; font-weight:bold;">Out of Stock</span>'}</li>
+            </ul>
+
+            <button onclick="buyNow(${p.id}, '${p.name.replace(/'/g, "\\'")}', ${p.price})" class="buy-btn" ${p.stock_quantity === 0 ? 'disabled' : ''} style="width:100%; border:none; padding:12px; font-size:16px; border-radius:5px; background:${p.stock_quantity > 0 ? '#388e3c' : '#ccc'}; color:white; font-weight:bold; cursor:${p.stock_quantity > 0 ? 'pointer' : 'not-allowed'}; margin-top:20px; transition:background 0.2s;">
+              ${p.stock_quantity > 0 ? 'Buy Now' : 'Out of Stock'}
+            </button>
+            <br><br>
+            <a href="javascript:history.back()" style="display:inline-block; margin-top:10px; color:#388e3c; text-decoration:none; font-weight:500;">← Go Back</a>
+          </div>
+        `;
+      } catch (err) {
+        console.error(err);
+        document.getElementById('product-container').innerHTML = '<h2 style="text-align:center; color:#c62828;">Error loading product</h2>';
+      }
+    }
+
+    function buyNow(productId, productName, price) {
+      // Store checkout item in localStorage
+      localStorage.setItem('checkoutItem', JSON.stringify({
+        productId,
+        productName,
+        price,
+        quantity: 1
+      }));
+      window.location.href = "adress.html";
+    }
+
+    loadProduct();
+  </script>
+</body>
+</html>

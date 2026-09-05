@@ -72,33 +72,85 @@
   <!-- Main Container -->
   <main class="container">
     <h2>Enter Address</h2>
-    <form class="address-form">
+    <form class="address-form" onsubmit="event.preventDefault(); requestVisit();">
       <div class="form-group">
-        <input type="text" placeholder="Full Name" required>
+        <input type="text" id="fullname" placeholder="Full Name" required>
       </div>
       <div class="form-group">
-        <input type="tel" placeholder="Mobile Number" required>
+        <input type="tel" id="phone" placeholder="Mobile Number" required>
       </div>
       <div class="form-group">
-        <input type="text" placeholder="Pincode" required>
+        <input type="text" id="pincode" placeholder="Pincode" required>
       </div>
       <div class="form-group">
-        <input type="text" placeholder="Flat, House no., Building, Company, Apartment" required>
+        <input type="text" id="building" placeholder="Flat, House no., Building, Company, Apartment" required>
       </div>
       <div class="form-group">
-        <input type="text" placeholder="Area, Street, Sector, Village" required>
+        <input type="text" id="street" placeholder="Area, Street, Sector, Village" required>
       </div>
       <div class="form-group">
-        <input type="text" placeholder="Landmark (Optional)">
+        <input type="text" id="landmark" placeholder="Landmark (Optional)">
       </div>
       <div class="form-group half">
-        <input type="text" placeholder="Town/City" required>
-        <input type="text" placeholder="State" required>
+        <input type="text" id="city" placeholder="Town/City" required>
+        <input type="text" id="state" placeholder="State" required>
       </div>
       <div class="form-actions">
         <button type="submit">Save and Deliver Here</button>
       </div>
     </form>
   </main>
+
+  <script>
+    async function requestVisit() {
+      const userStr = localStorage.getItem('user');
+      const user = userStr ? JSON.parse(userStr) : null;
+      const farmerId = user ? user.id : null;
+
+      if (!farmerId) {
+        alert("Please log in to request a visit.");
+        window.location.href = "/login.html";
+        return;
+      }
+
+      const fullname = document.getElementById("fullname").value;
+      const phone = document.getElementById("phone").value;
+      const pincode = document.getElementById("pincode").value;
+      const building = document.getElementById("building").value;
+      const street = document.getElementById("street").value;
+      const landmark = document.getElementById("landmark").value;
+      const city = document.getElementById("city").value;
+      const state = document.getElementById("state").value;
+
+      const addressString = `${building}, ${street}, Landmark: ${landmark || 'None'}, ${city}, ${state} - ${pincode}`;
+      const scheduledAt = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000).toISOString().slice(0, 10); // 3 days from now
+      
+      try {
+        const res = await fetch("/api/consultations", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            farmerId,
+            expertId: 1, // Default expert
+            consultationType: "site_visit",
+            scheduledAt,
+            notes: `Request from ${fullname} (Phone: ${phone})`,
+            shippingAddress: addressString
+          })
+        });
+
+        const data = await res.json();
+        if (res.ok) {
+          alert(`Expert visit requested successfully!\nBooking ID: ${data.bookingId}\nScheduled Date: ${scheduledAt}\nAn expert will contact you shortly.`);
+          window.location.href = "expert.html";
+        } else {
+          alert("Error: " + (data.error || "Failed to book visit"));
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Server error. Check backend connection.");
+      }
+    }
+  </script>
 </body>
 </html>

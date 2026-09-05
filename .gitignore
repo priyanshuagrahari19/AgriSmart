@@ -1,0 +1,6 @@
+node_modules/
+chatbot/node_modules/
+chatbot/.env
+*.env
+.vscode/
+category/.vscode/

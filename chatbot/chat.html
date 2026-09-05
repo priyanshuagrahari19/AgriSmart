@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AgriSmart Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"/>
+  <style>
+    :root {
+      --primary: #2e7d32;
+      --primary-light: #51b356;
+      --primary-dark: #1b5e20;
+      --bg-color: #f7f9fc;
+      --chat-bg: #ffffff;
+      --text-main: #333333;
+      --text-muted: #888888;
+      --user-msg: #dcf8c6;
+      --bot-msg: #f1f3f4;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Roboto', sans-serif; }
+
+    body {
+      background-color: var(--bg-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-image: linear-gradient(135deg, #f0ffd5 0%, var(--bg-color) 100%);
+    }
+
+    .chat-container {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: var(--chat-bg);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .chat-header {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      padding: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      z-index: 10;
+    }
+    
+    .chat-header-left { display: flex; align-items: center; gap: 15px; }
+
+    .chat-header .avatar {
+      width: 45px;
+      height: 45px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 24px;
+      color: var(--primary);
+    }
+
+    .chat-header-info h2 { font-size: 1.2rem; font-weight: 700; }
+    .chat-header-info p { font-size: 0.85rem; opacity: 0.9; margin-top: 2px; }
+
+    /* Language Dropdown styles */
+    .lang-dropdown select {
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      border-radius: 20px;
+      color: white;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+    }
+    .lang-dropdown select option {
+      color: black;
+    }
+
+    .chat-body {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      background: url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><circle cx="2" cy="2" r="1" fill="%232e7d32" fill-opacity="0.05"/></svg>') repeat;
+    }
+
+    .chat-body::-webkit-scrollbar { width: 6px; }
+    .chat-body::-webkit-scrollbar-thumb { background: rgba(46, 125, 50, 0.2); border-radius: 10px; }
+
+    .msg {
+      max-width: 80%;
+      padding: 12px 18px;
+      border-radius: 20px;
+      font-size: 0.95rem;
+      line-height: 1.4;
+      position: relative;
+      animation: fadeIn 0.3s ease;
+      word-wrap: break-word;
+    }
+
+    .msg img {
+      max-width: 100%;
+      border-radius: 10px;
+      margin-top: 8px;
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .user-msg {
+      background: var(--user-msg);
+      color: var(--text-main);
+      align-self: flex-end;
+      border-bottom-right-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .bot-msg {
+      background: var(--bot-msg);
+      color: var(--text-main);
+      align-self: flex-start;
+      border-bottom-left-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    .typing-indicator {
+      display: none;
+      align-self: flex-start;
+      background: var(--bot-msg);
+      padding: 12px 18px;
+      border-radius: 20px;
+      border-bottom-left-radius: 5px;
+      gap: 5px;
+      align-items: center;
+    }
+    .typing-indicator.active { display: flex; }
+
+    .dot {
+      width: 7px;
+      height: 7px;
+      background: var(--text-muted);
+      border-radius: 50%;
+      animation: bounce 1.4s infinite ease-in-out both;
+    }
+    .dot:nth-child(1) { animation-delay: -0.32s; }
+    .dot:nth-child(2) { animation-delay: -0.16s; }
+
+    @keyframes bounce {
+      0%, 80%, 100% { transform: scale(0); }
+      40% { transform: scale(1); }
+    }
+
+    /* Preview Box for uploaded images */
+    .preview-box {
+      display: none;
+      padding: 10px 20px;
+      background: #f1f3f4;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .preview-box.active {
+      display: flex;
+    }
+
+    .preview-box img {
+      height: 50px;
+      width: 50px;
+      object-fit: cover;
+      border-radius: 8px;
+      border: 2px solid var(--primary-light);
+    }
+
+    .preview-close {
+      cursor: pointer;
+      color: #d32f2f;
+      font-size: 1.2rem;
+    }
+
+    .chat-footer {
+      padding: 15px 20px;
+      background: white;
+      border-top: 1px solid rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .icon-btn {
+      color: var(--text-muted);
+      font-size: 1.3rem;
+      cursor: pointer;
+      padding: 8px;
+      transition: color 0.3s;
+      background: none;
+      border: none;
+    }
+
+    .icon-btn:hover { color: var(--primary); }
+    .icon-btn.recording { color: #d32f2f; animation: pulse 1.5s infinite; }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.15); }
+      100% { transform: scale(1); }
+    }
+
+    .chat-footer input[type="text"] {
+      flex: 1;
+      padding: 12px 15px;
+      border: 1px solid #e0e0e0;
+      border-radius: 30px;
+      outline: none;
+      font-size: 0.95rem;
+      transition: all 0.3s;
+      background: var(--bg-color);
+    }
+
+    .chat-footer input[type="text"]:focus {
+      border-color: var(--primary-light);
+      background: white;
+      box-shadow: 0 0 0 3px rgba(81, 179, 86, 0.1);
+    }
+
+    .chat-footer #send-btn {
+      background: var(--primary);
+      color: white;
+      border: none;
+      width: 45px;
+      height: 45px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.2rem;
+      transition: all 0.3s;
+      box-shadow: 0 4px 10px rgba(46, 125, 50, 0.3);
+    }
+
+    .chat-footer #send-btn:hover {
+      background: var(--primary-dark);
+      transform: scale(1.05);
+    }
+    
+    .chat-footer #send-btn:disabled, .icon-btn:disabled {
+      background: #ccc;
+      color: #888;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    /* Responsive Design for Laptop, Tablet, and Mobile */
+    @media (max-width: 768px) {
+      .chat-container {
+        height: 100vh;
+        max-width: 100%;
+        border-radius: 0;
+        border: none;
+      }
+      .chat-header h2 { font-size: 1.1rem; }
+      .chat-footer { padding: 10px 15px; }
+      .chat-footer input[type="text"] { padding: 10px; font-size: 0.9rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="chat-container">
+
+  <div class="chat-header">
+    <div class="chat-header-left">
+      <div class="avatar">
+        <i class="fas fa-leaf"></i>
+      </div>
+      <div class="chat-header-info">
+        <h2>Krishi Sahayak</h2>
+        <p>AgriSmart AI Assistant 🌾</p>
+      </div>
+    </div>
+    
+    <!-- Language Selection -->
+    <div class="lang-dropdown">
+      <select id="user-lang">
+        <option value="English" selected>English</option>
+        <option value="Hindi">हिंदी (Hindi)</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="chat-body" id="chat-body">
+    <!-- Messages go here -->
+    <div class="typing-indicator" id="typing-indicator">
+      <div class="dot"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+  </div>
+
+  <!-- Image Preview Box -->
+  <div class="preview-box" id="preview-box">
+    <img id="preview-img" src="" alt="preview" />
+    <span style="flex:1; font-size: 14px; color: var(--text-muted)" id="preview-name">Photo Selected</span>
+    <i class="fas fa-times-circle preview-close" onclick="cancelUpload()"></i>
+  </div>
+
+  <div class="chat-footer">
+    <!-- File Input -->
+    <label for="image-upload" class="icon-btn" title="Upload Photo"><i class="fas fa-image"></i></label>
+    <input type="file" id="image-upload" accept="image/*" style="display:none;" onchange="handleImageSelection(event)" />
+
+    <!-- Text Input -->
+    <input type="text" id="user-input" placeholder="Type or use your voice..." onkeypress="handleKeypress(event)" />
+    
+    <!-- Voice MIC Input -->
+    <button id="mic-btn" class="icon-btn" onclick="toggleVoiceRecording()" title="Speak"><i class="fas fa-microphone"></i></button>
+
+    <!-- Send -->
+    <button id="send-btn" onclick="sendMessage()"><i class="fas fa-paper-plane"></i></button>
+  </div>
+
+</div>
+
+<script>
+const chatBody = document.getElementById("chat-body");
+const typingIndicator = document.getElementById("typing-indicator");
+const sendBtn = document.getElementById("send-btn");
+const userInput = document.getElementById("user-input");
+const fileInput = document.getElementById("image-upload");
+const previewBox = document.getElementById("preview-box");
+const previewImg = document.getElementById("preview-img");
+const langSelect = document.getElementById("user-lang");
+const micBtn = document.getElementById("mic-btn");
+
+let currentBase64Image = null;
+let currentMimeType = null;
+let recognition;
+let isRecording = false;
+let currentSessionId = null;
+
+const userStr = localStorage.getItem('user');
+const loggedInUser = userStr ? JSON.parse(userStr) : null;
+const userId = loggedInUser ? loggedInUser.id : null;
+
+// Setup Speech Recognition
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.onresult = function(event) {
+    const transcript = event.results[0][0].transcript;
+    userInput.value += transcript;
+  };
+
+  recognition.onend = function() {
+    isRecording = false;
+    micBtn.classList.remove("recording");
+    userInput.placeholder = "Type or use your voice...";
+  };
+
+  recognition.onerror = function(event) {
+    console.error("Speech recognition error", event.error);
+    isRecording = false;
+    micBtn.classList.remove("recording");
+    userInput.placeholder = "Type or use your voice...";
+  };
+} else {
+  micBtn.style.display = 'none'; // Mic unsupported
+}
+
+function toggleVoiceRecording() {
+  if (!recognition) return alert("Your browser doesn't support voice input.");
+  
+  if (isRecording) {
+    recognition.stop();
+  } else {
+    // Determine language to listen for based on selected lang
+    recognition.lang = langSelect.value === 'Hindi' ? 'hi-IN' : 'en-US';
+    recognition.start();
+    isRecording = true;
+    micBtn.classList.add("recording");
+    userInput.placeholder = "Listening...";
+  }
+}
+
+function handleImageSelection(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const result = e.target.result;
+    
+    try {
+      currentMimeType = result.split(';')[0].split(':')[1];
+      currentBase64Image = result.split(',')[1];
+      
+      if (!currentMimeType.startsWith('image/')) {
+        alert("Please select a valid image file.");
+        return;
+      }
+    } catch(err) {
+      alert("Error reading image.");
+      return;
+    }
+
+    previewImg.src = result;
+    document.getElementById("preview-name").innerText = file.name;
+    previewBox.classList.add("active");
+  };
+  reader.readAsDataURL(file);
+}
+
+function cancelUpload() {
+  fileInput.value = "";
+  currentBase64Image = null;
+  currentMimeType = null;
+  previewBox.classList.remove("active");
+}
+
+function appendMessage(text, sender, base64Src = null) {
+  const msgDiv = document.createElement("div");
+  msgDiv.className = `msg ${sender}-msg`;
+  
+  if (text) {
+    let parsedText = text.replace(/!\[(.*?)\]\((.*?)\)/g, "<br><img src='$2' alt='$1' style='max-width:100%; border-radius:10px; margin-top:10px;'/>");
+    parsedText = parsedText.replace(/\*\*(.*?)\*\*/g, "<b>$1</b>");
+    parsedText = parsedText.replace(/\n/g, "<br>");
+    msgDiv.innerHTML = parsedText;
+  } else {
+    msgDiv.innerHTML = "";
+  }
+  
+  if (base64Src) {
+    const img = document.createElement("img");
+    img.src = base64Src;
+    msgDiv.insertBefore(img, msgDiv.firstChild);
+    if(text) msgDiv.innerHTML += "<br>";
+  }
+  
+  // Insert before typing indicator
+  chatBody.insertBefore(msgDiv, typingIndicator);
+  scrollToBottom();
+}
+
+function scrollToBottom() {
+  chatBody.scrollTop = chatBody.scrollHeight;
+}
+
+function handleKeypress(event) {
+  if (event.key === "Enter") sendMessage();
+}
+
+async function sendMessage() {
+  const message = userInput.value.trim();
+  const lang = langSelect.value;
+  
+  if (!message && !currentBase64Image) return; // Empty msg
+
+  // Append User message locally
+  const imgSrcRender = currentBase64Image ? `data:${currentMimeType};base64,${currentBase64Image}` : null;
+  appendMessage(message, "user", imgSrcRender);
+
+  // Payload for backend
+  const payload = {
+    message: message || "Please analyze this image.",
+    language: lang,
+    image: currentBase64Image ? {
+      mimeType: currentMimeType,
+      data: currentBase64Image
+    } : null,
+    sessionId: currentSessionId,
+    userId: userId
+  };
+
+  // Reset UI elements immediately
+  userInput.value = "";
+  cancelUpload();
+  
+  // Disable UI and show typing
+  sendBtn.disabled = true;
+  userInput.disabled = true;
+  micBtn.disabled = true;
+  typingIndicator.classList.add("active");
+  scrollToBottom();
+
+  try {
+    const res = await fetch("/api/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    
+    if (data.sessionId) {
+      currentSessionId = data.sessionId;
+    }
+
+    typingIndicator.classList.remove("active");
+    appendMessage(data.reply || "Error parsing response.", "bot");
+
+  } catch (err) {
+    typingIndicator.classList.remove("active");
+    appendMessage("Server ya network me error hai. Kripya backend server check karein.", "bot");
+  } finally {
+    sendBtn.disabled = false;
+    userInput.disabled = false;
+    micBtn.disabled = false;
+    userInput.focus();
+  }
+}
+
+// Initial welcome message
+setTimeout(() => {
+  appendMessage("Welcome! I am your AgriSmart Assistant. Ask me anything about farming, or upload a photo of your crop! 🌾", "bot");
+}, 500);
+</script>
+
+</body>
+</html>

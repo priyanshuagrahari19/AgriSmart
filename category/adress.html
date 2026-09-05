@@ -95,8 +95,17 @@
   <script>
     function goToPayment(event) {
       event.preventDefault();
+      const shippingAddress = {
+        name: document.getElementById("name").value,
+        phone: document.getElementById("phone").value,
+        address: document.getElementById("address").value,
+        city: document.getElementById("city").value,
+        state: document.getElementById("state").value,
+        pincode: document.getElementById("pincode").value
+      };
+      localStorage.setItem('shippingAddress', JSON.stringify(shippingAddress));
       alert("Address saved successfully! Redirecting to Payment Page...");
-      window.location.href = "payment.html"; // Navigate to payment page
+      window.location.href = "payment.html";
     }
   </script>
 </body>

@@ -248,55 +248,42 @@ body {
 
   <!-- Equipment Gallery -->
   <h1 style="text-align:center; color:#2d572c; margin-top: 20px;">Farming Equipment</h1>
-  <div class="equipment-gallery">
-    <!-- Card 1 -->
-    <div class="card">
-      <a href="tractor.html">
-        <img src="resource image/grass cutter.jpg" alt="Grass Cutter">
-        <div class="caption">Grass Cutter</div>
-      </a>
-    </div>
-
-    <!-- Card 2 -->
-    <div class="card">
-      <a href="plough.html">
-        <img src="resource image/plough1.jpg" alt="Plough">
-        <div class="caption">Plough</div>
-      </a>
-    </div>
-
-    <!-- Card 3 -->
-    <div class="card">
-      <a href="soil-test.html">
-        <img src="resource image/soil test.jpg" alt="Soil Testing Kit">
-        <div class="caption">Soil Testing Kit</div>
-      </a>
-    </div>
-
-    <!-- Card 4 -->
-    <div class="card">
-      <a href="seed-drill.html">
-        <img src="resource image/seed drill.jpg" alt="Seed Drill">
-        <div class="caption">Seed Drill</div>
-      </a>
-    </div>
-
-    <!-- Card 5 -->
-    <div class="card">
-      <a href="sprayer.html">
-        <img src="resource image/sprinker.jpg" alt="Sprayer">
-        <div class="caption">Sprayer</div>
-      </a>
-    </div>
-
-    <!-- Card 6 -->
-    <div class="card">
-      <a href="axe.html">
-        <img src="resource image/axe1.jpg" alt="Axe">
-        <div class="caption">Axe</div>
-      </a>
+  <div class="equipment-gallery" id="gallery">
+    <div style="text-align: center; width: 100%; grid-column: span 3; padding: 40px 0;">
+      <i class="fas fa-spinner fa-spin" style="font-size: 30px; color: #2e7d32;"></i>
+      <p style="margin-top: 10px;">Loading equipment...</p>
     </div>
   </div>
+
+  <script>
+    async function loadProducts() {
+      try {
+        const res = await fetch('/api/products?category=equipment');
+        const products = await res.json();
+        const gallery = document.getElementById('gallery');
+        gallery.innerHTML = '';
+        
+        if (products.length === 0) {
+          gallery.innerHTML = '<p style="text-align:center; grid-column: span 3;">No farming equipment available currently.</p>';
+          return;
+        }
+
+        products.forEach(p => {
+          gallery.innerHTML += `
+            <div class="card">
+              <a href="detail.html?id=${p.id}">
+                <img src="${p.image_url}" alt="${p.name}">
+                <div class="caption">${p.name}<br><span style="color:#e65100; font-size:14px;">₹${p.price}</span></div>
+              </a>
+            </div>
+          `;
+        });
+      } catch (err) {
+        console.error(err);
+        document.getElementById('gallery').innerHTML = '<p style="text-align:center; grid-column: span 3; color:red;">Failed to load products. Make sure server is running.</p>';
+      }
+    }
+    loadProducts();
+  </script>
 </body>
 </html>
-

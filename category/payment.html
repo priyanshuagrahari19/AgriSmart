@@ -78,7 +78,7 @@
 
     <!-- Card Payment -->
     <div class="tab-content active" id="card">
-      <form>
+      <form onsubmit="event.preventDefault(); processOrder('card')">
         <label for="cardname">Cardholder Name</label>
         <input type="text" id="cardname" placeholder="John Doe" required>
 
@@ -97,7 +97,7 @@
 
     <!-- UPI Payment -->
     <div class="tab-content" id="upi">
-      <form>
+      <form onsubmit="event.preventDefault(); processOrder('upi')">
         <label for="upiid">Enter UPI ID</label>
         <input type="text" id="upiid" placeholder="example@upi" required>
         <button type="submit">Pay via UPI</button>
@@ -106,7 +106,7 @@
 
     <!-- Net Banking -->
     <div class="tab-content" id="netbanking">
-      <form>
+      <form onsubmit="event.preventDefault(); processOrder('netbanking')">
         <label for="bank">Select Bank</label>
         <select id="bank" required>
           <option value="">--Select Bank--</option>
@@ -123,7 +123,7 @@
     <!-- Cash on Delivery -->
     <div class="tab-content" id="cod">
       <p>Pay with cash when your order is delivered. Please ensure you have the exact amount ready.</p>
-      <button>Confirm COD</button>
+      <button onclick="processOrder('cod')">Confirm COD</button>
     </div>
   </div>
 
@@ -141,6 +141,64 @@
         document.getElementById(tab.dataset.tab).classList.add('active');
       });
     });
+
+    async function processOrder(paymentMethod) {
+      const userStr = localStorage.getItem('user');
+      const addressStr = localStorage.getItem('shippingAddress');
+      const checkoutItemStr = localStorage.getItem('checkoutItem');
+
+      if (!addressStr || !checkoutItemStr) {
+        alert("Missing cart or delivery details. Please re-try from the product page.");
+        window.location.href = "category.html";
+        return;
+      }
+
+      const user = userStr ? JSON.parse(userStr) : {};
+      const address = JSON.parse(addressStr);
+      const checkoutItem = JSON.parse(checkoutItemStr);
+
+      const payload = {
+        userId: user.id || null,
+        totalAmount: checkoutItem.price * checkoutItem.quantity,
+        shippingName: address.name,
+        shippingPhone: address.phone,
+        shippingAddress: address.address,
+        shippingCity: address.city,
+        shippingState: address.state,
+        shippingPincode: address.pincode,
+        paymentMethod: paymentMethod,
+        items: [
+          {
+            productId: checkoutItem.productId,
+            quantity: checkoutItem.quantity,
+            unitPrice: checkoutItem.price
+          }
+        ]
+      };
+
+      try {
+        const res = await fetch("/api/orders", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (res.ok) {
+          alert(`Order placed successfully!\nTransaction ID: ${data.transactionId}\nOrder ID: ${data.orderId}`);
+          localStorage.removeItem('checkoutItem');
+          window.location.href = "/mai/inde.html";
+        } else {
+          alert("Error placing order: " + (data.error || "Please try again."));
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Failed to connect to the server. Please verify the backend is running.");
+      }
+    }
   </script>
 </body>
 </html>

@@ -76,62 +76,110 @@
           <img src="images/call.png" alt="img" />
           <h4>Voice Call</h4>
           <p>Speak directly with an expert</p>
-          <button>Start Voice Call</button>
+          <button onclick="bookConsultation('voice_call')">Start Voice Call</button>
         </div>
         <div class="card">
           <img src="images/video-camera.png" alt="img" />
           <h4>Video Call</h4>
           <p>Visual Guidance and Consultation</p>
-          <button>Start Video Call</button>
+          <button onclick="bookConsultation('video_call')">Start Video Call</button>
         </div>
         <div class="card">
           <a href="address.html">
-          <img src="images/calendar.png" alt="img" />
-          <h4>Request Visit</h4>
-          <p>Schedule an-sit on-sit expert visit</p>
-          <button>Request a Visit</button>
+            <img src="images/calendar.png" alt="img" />
+            <h4>Request Visit</h4>
+            <p>Schedule an-sit on-sit expert visit</p>
+            <button style="width: 100%;">Request a Visit</button>
           </a>
         </div>
       </div>
       <div class="expert_user">
         <h3>Experts</h3>
-        <div class="expert_container">
-          <div class="user">
-            <img src="images/user.png" alt="img" />
-            <div class="details">
-              <h4>Farm Rowth</h4>
-              <p>Deak Cutilife Surpens</p>
-            </div>
-            <div class="buttons">
-              <button class="first_button">Browse</button>
-              <button class="second_button">Unknown</button>
-            </div>
-          </div>
-          <div class="user">
-            <img src="images/user.png" alt="img" />
-            <div class="details">
-              <h4>Agri Swarh</h4>
-              <p>Lorem ipsum dolor sit</p>
-            </div>
-            <div class="buttons">
-              <button class="first_button">Browse</button>
-              <button class="second_button">Unknown</button>
-            </div>
-          </div>
-          <div class="user">
-            <img src="images/user.png" alt="img" />
-            <div class="details">
-              <h4 style="text-align: right;">Bedham Farnigs</h4>
-              <p>Deak Cutilife Surpens</p>
-            </div>
-            <div class="buttons">
-              <button class="first_button">Browse</button>
-              <button class="second_button">Unknown</button>
-            </div>
+        <div class="expert_container" id="expert-container">
+          <div style="text-align: center; width: 100%; padding: 20px;">
+            <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #2e7d32;"></i>
+            <p style="margin-top: 10px;">Loading experts...</p>
           </div>
         </div>
       </div>
     </main>
-    <script src="script.js"></script>
+
+    <script>
+      async function loadExperts() {
+        try {
+          const res = await fetch("/api/experts");
+          const experts = await res.json();
+          const container = document.getElementById("expert-container");
+          container.innerHTML = "";
+
+          if (experts.length === 0) {
+            container.innerHTML = "<p style='text-align:center;'>No experts listed at this time.</p>";
+            return;
+          }
+
+          experts.forEach(e => {
+            container.innerHTML += `
+              <div class="user" style="display:flex; justify-content:space-between; align-items:center; background:white; padding:15px; border-radius:8px; margin-bottom:10px; box-shadow:0 2px 5px rgba(0,0,0,0.05);">
+                <div style="display:flex; align-items:center; gap:15px;">
+                  <img src="${e.profile_image || 'images/user.png'}" alt="img" style="width:50px; height:50px; border-radius:50%; object-fit:cover;" />
+                  <div class="details" style="text-align:left;">
+                    <h4 style="margin:0; font-size:16px; color:#2e7d32;">${e.name}</h4>
+                    <p style="margin:2px 0 0 0; font-size:13px; color:#666;">${e.specialization}</p>
+                    <p style="margin:2px 0 0 0; font-size:12px; color:#ffb300;"><i class="fas fa-star"></i> ${e.rating.toFixed(1)}</p>
+                  </div>
+                </div>
+                <div class="buttons" style="display:flex; gap:10px;">
+                  <button onclick="bookConsultation('voice_call', ${e.id})" style="background:#2e7d32; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold; font-size:12px;">Call</button>
+                  <button onclick="bookConsultation('video_call', ${e.id})" style="background:#e65100; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer; font-weight:bold; font-size:12px;">Video</button>
+                </div>
+              </div>
+            `;
+          });
+        } catch (err) {
+          console.error(err);
+          document.getElementById("expert-container").innerHTML = "<p style='text-align:center; color:red;'>Failed to load experts.</p>";
+        }
+      }
+
+      async function bookConsultation(type, expertId = null) {
+        const userStr = localStorage.getItem('user');
+        const user = userStr ? JSON.parse(userStr) : null;
+        const farmerId = user ? user.id : null;
+
+        if (!farmerId) {
+          alert("Please log in to book a consultation.");
+          window.location.href = "/login.html";
+          return;
+        }
+
+        const scheduledAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().slice(0, 16); // Scheduled for tomorrow
+        
+        try {
+          const res = await fetch("/api/consultations", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              farmerId,
+              expertId,
+              consultationType: type,
+              scheduledAt,
+              notes: `Farmer requested a ${type} consultation.`
+            })
+          });
+
+          const data = await res.json();
+          if (res.ok) {
+            alert(`Consultation booked successfully!\nBooking ID: ${data.bookingId}\nType: ${type.toUpperCase().replace('_', ' ')}\nScheduled for: ${scheduledAt}`);
+          } else {
+            alert("Error booking consultation: " + (data.error || "Please try again."));
+          }
+        } catch (err) {
+          console.error(err);
+          alert("Failed to book consultation. Check server status.");
+        }
+      }
+
+      loadExperts();
+    </script>
   </body>
 </html>
