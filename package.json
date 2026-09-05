@@ -4,7 +4,7 @@
   "description": "AgriSmart Web Application",
   "main": "server.js",
   "scripts": {
-    "postinstall": "cd chatbot && npm install && npm rebuild sqlite3",
+    "postinstall": "cd chatbot && npm install --build-from-source=sqlite3",
     "start": "node server.js"
   },
   "engines": {
@@ -16,6 +16,6 @@
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
-    "sqlite3": "^6.0.1"
+    "sqlite3": "^5.1.7"
   }
 }
