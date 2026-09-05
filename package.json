@@ -2,10 +2,13 @@
   "name": "agrismart",
   "version": "1.0.0",
   "description": "AgriSmart Web Application",
-  "main": "chatbot/server.js",
+  "main": "server.js",
   "scripts": {
-    "postinstall": "cd chatbot && npm install",
-    "start": "node chatbot/server.js"
+    "postinstall": "cd chatbot && npm install && npm rebuild sqlite3",
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": "20.x"
   },
   "dependencies": {
     "@google/genai": "^1.46.0",
