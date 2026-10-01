@@ -8,12 +8,13 @@
     body {
       font-family: Arial, sans-serif;
       margin: 0;
-      height: 100vh;
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       position: relative;
-      overflow: hidden;
+      overflow-y: auto;
+      padding: 20px 15px;
     }
 
     /* Background with blur */
@@ -35,7 +36,7 @@
       border-radius: 10px;
       box-shadow: 0 0 15px rgba(0,0,0,0.3);
       width: 90%;
-      max-width: 350px;
+      max-width: 380px;
     }
 
     h2 {

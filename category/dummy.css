@@ -229,3 +229,12 @@ body {
   .cart-actions .payment-btn:hover {
     background: #1f3d1d;
   }
+
+.card img {
+  width: 100%;
+  height: 180px !important;
+  max-height: 180px !important;
+  object-fit: contain !important;
+  padding: 8px;
+  border-radius: 8px;
+}

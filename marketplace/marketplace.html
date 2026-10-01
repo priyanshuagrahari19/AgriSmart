@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AgriSmart - Farmers Marketplace & Live Mandi Rates</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="marketplace.css">
+</head>
+<body>
+
+<!-- Header Navigation Bar -->
+<div class="navbar-container">
+  <div class="wrapper">
+    <header class="header">
+      <div class="logo">
+        <a href="../mai/inde.html">
+          <img src="../logo1.jpg" alt="AgriSmart Logo" onerror="this.src='/logo1.jpg'" style="height: 50px; width: auto; object-fit: contain; border-radius: 6px;" />
+        </a>
+      </div>
+
+      <nav class="navbar">
+        <ul>
+          <li>
+            <a href="/mai/inde.html">
+              <i class="fas fa-home"></i><span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a href="/Description/description.html">
+              <i class="fas fa-circle-info"></i><span>Description</span>
+            </a>
+          </li>
+          <li>
+            <a href="/marketplace/marketplace.html" class="active">
+              <i class="fas fa-store"></i><span>Marketplace</span>
+            </a>
+          </li>
+          <li>
+            <a href="/SIH Website/expert.html">
+              <i class="fas fa-user"></i><span>Expert</span>
+            </a>
+          </li>
+          <li>
+            <a href="/category/category.html">
+              <i class="fas fa-flask"></i><span>Resources</span>
+            </a>
+          </li>
+          <li>
+            <a href="/environment/environment.html">
+              <i class="fas fa-seedling"></i><span>Environment</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="search">
+        <input type="text" class="search_box" id="global-marketplace-search" placeholder="Search crops, mandis, buyers..." oninput="handleGlobalSearch(this.value)" />
+        <i class="fas fa-search search_icon"></i>
+      </div>
+
+      <div class="user-profile">
+        <a href="/chatbot/chat.html" title="AI Assistant"><i class="fas fa-comment-dots"></i></a>
+        <a href="#" title="Language"><i class="fas fa-globe"></i></a>
+        <a href="/login.html" title="User Profile"><i class="fas fa-user-circle"></i></a>
+      </div>
+    </header>
+  </div>
+</div>
+
+<!-- Main Marketplace Content -->
+<main class="main-content">
+    <div class="hero-banner">
+        <div class="hero-text">
+            <h1><i class="fas fa-handshake"></i> Farmers Marketplace & Live Mandi Prices</h1>
+            <p>Check daily Mandi rates across 28 states, list your harvest for direct sale, and connect directly with verified buyers without any middleman cut!</p>
+        </div>
+        <div class="hero-actions">
+            <button class="btn-primary" onclick="openPostModal()"><i class="fas fa-plus-circle"></i> Post Your Crop Harvest</button>
+            <button class="btn-secondary" onclick="scrollToMandi()"><i class="fas fa-chart-line"></i> View Today's Mandi Rates</button>
+        </div>
+    </div>
+
+    <!-- Quick Stats Bar -->
+    <div class="stats-bar">
+        <div class="stat-card">
+            <i class="fas fa-building-wheat"></i>
+            <div>
+                <span class="stat-num" id="stat-mandis">1,420+</span>
+                <span class="stat-label">Live APMC Mandis</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-wheat-awn"></i>
+            <div>
+                <span class="stat-num" id="stat-crops">85+</span>
+                <span class="stat-label">Crops Tracked</span>
+            </div>
+        </div>
+        <div class="stat-card">
+            <i class="fas fa-users-viewfinder"></i>
+            <div>
+                <span class="stat-num" id="stat-vendors">3,850+</span>
+                <span class="stat-label">Verified Buyers</span>
+            </div>
+        </div>
+        <div class="stat-card highlight">
+            <i class="fas fa-percent"></i>
+            <div>
+                <span class="stat-num">0%</span>
+                <span class="stat-label">Middleman Commission</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Marketplace Navigation Tabs -->
+    <div class="market-tabs">
+        <button class="tab-btn active" id="tab-btn-mandi" onclick="switchMarketTab('mandi')">
+            <i class="fas fa-chart-bar"></i> 1. Live Mandi View (APMC Prices)
+        </button>
+        <button class="tab-btn" id="tab-btn-sell" onclick="switchMarketTab('sell')">
+            <i class="fas fa-truck-ramp-box"></i> 2. Farmers Produce Listings
+        </button>
+        <button class="tab-btn" id="tab-btn-vendors" onclick="switchMarketTab('vendors')">
+            <i class="fas fa-address-book"></i> 3. Verified Buyer Directory
+        </button>
+    </div>
+
+    <!-- TAB 1: Live Mandi Rates -->
+    <div class="tab-content active" id="tab-mandi">
+        <div class="filter-section">
+            <div class="filter-group">
+                <label><i class="fas fa-map-marker-alt"></i> Select State:</label>
+                <select id="mandi-state-select" onchange="filterMandiRates()">
+                    <option value="all">All States (India)</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    <option value="Madhya Pradesh" selected>Madhya Pradesh</option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Haryana">Haryana</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Gujarat">Gujarat</option>
+                    <option value="Bihar">Bihar</option>
+                    <option value="West Bengal">West Bengal</option>
+                    <option value="Karnataka">Karnataka</option>
+                </select>
+            </div>
+
+            <div class="filter-group">
+                <label><i class="fas fa-seedling"></i> Select Crop / Commodity:</label>
+                <select id="mandi-crop-select" onchange="filterMandiRates()">
+                    <option value="all">All Crops</option>
+                    <option value="Wheat">Wheat (गेहूं)</option>
+                    <option value="Paddy/Rice">Paddy / Rice (धान / चावल)</option>
+                    <option value="Soybean">Soybean (सोयाबीन)</option>
+                    <option value="Mustard">Mustard (सरसों)</option>
+                    <option value="Maize">Maize (मक्का)</option>
+                    <option value="Gram/Chana">Gram / Chana (चना)</option>
+                    <option value="Onion">Onion (प्याज)</option>
+                    <option value="Potato">Potato (आलू)</option>
+                    <option value="Cotton">Cotton (कपास)</option>
+                    <option value="Moong">Moong (मूंग)</option>
+                </select>
+            </div>
+
+            <div class="filter-group search-flex">
+                <label><i class="fas fa-search"></i> Search Mandi / District:</label>
+                <input type="text" id="mandi-search-input" placeholder="e.g. Indore, Lucknow, Khanna..." oninput="filterMandiRates()" />
+            </div>
+
+            <button class="btn-refresh" onclick="refreshMandiData()"><i class="fas fa-sync-alt"></i> Refresh Live Rates</button>
+        </div>
+
+        <!-- Live Price Update Banner -->
+        <div class="live-status-bar">
+            <span class="pulse-dot"></span>
+            <span>Live APMC e-NAM Market Data updated for: <strong id="live-data-date">Today</strong></span>
+            <span class="msp-badge"><i class="fas fa-shield-halved"></i> Govt MSP Benchmark Included</span>
+        </div>
+
+        <!-- Mandi Cards Grid -->
+        <div class="mandi-cards-grid" id="mandi-cards-container">
+            <!-- Dynamic Cards Populated by marketplace.js -->
+        </div>
+    </div>
+
+    <!-- TAB 2: Farmers Produce Listings -->
+    <div class="tab-content" id="tab-sell">
+        <div class="section-header">
+            <div>
+                <h2><i class="fas fa-boxes-stacked"></i> Direct Crops Listed by Farmers</h2>
+                <p>Buy directly from farmers across India. Zero commission, fresh harvest, verified contacts.</p>
+            </div>
+            <button class="btn-primary" onclick="openPostModal()"><i class="fas fa-plus"></i> Post Your Crop Harvest</button>
+        </div>
+
+        <div class="filter-section compact">
+            <div class="filter-group">
+                <label>Filter by Crop:</label>
+                <select id="sell-crop-filter" onchange="filterProduceListings()">
+                    <option value="all">All Crops</option>
+                    <option value="Wheat">Wheat</option>
+                    <option value="Rice">Rice / Paddy</option>
+                    <option value="Soybean">Soybean</option>
+                    <option value="Mustard">Mustard</option>
+                    <option value="Maize">Maize</option>
+                    <option value="Vegetables">Fresh Vegetables</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Quality Grade:</label>
+                <select id="sell-grade-filter" onchange="filterProduceListings()">
+                    <option value="all">All Grades</option>
+                    <option value="Organic">100% Organic</option>
+                    <option value="Grade A">Grade A (Premium)</option>
+                    <option value="Standard">Standard</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Produce Cards Grid -->
+        <div class="produce-cards-grid" id="produce-cards-container">
+            <!-- Dynamic Produce Cards Populated by JS -->
+        </div>
+    </div>
+
+    <!-- TAB 3: Verified Buyer Directory -->
+    <div class="tab-content" id="tab-vendors">
+        <div class="section-header">
+            <div>
+                <h2><i class="fas fa-user-check"></i> Verified Grain Buyers, Wholesalers & Mills</h2>
+                <p>Connect directly via Phone or WhatsApp to get instant price quotes and sell your crop.</p>
+            </div>
+        </div>
+
+        <div class="filter-section compact">
+            <div class="filter-group">
+                <label>Filter Buyer Type:</label>
+                <select id="vendor-type-filter" onchange="filterVendors()">
+                    <option value="all">All Buyers</option>
+                    <option value="Wholesaler">Grain Wholesalers</option>
+                    <option value="Rice Mill">Rice / Flour Mills</option>
+                    <option value="Exporter">Agri Exporters</option>
+                    <option value="Organic Retailer">Organic Food Retailers</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Location:</label>
+                <select id="vendor-state-filter" onchange="filterVendors()">
+                    <option value="all">All States</option>
+                    <option value="Madhya Pradesh">Madhya Pradesh</option>
+                    <option value="Punjab">Punjab</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                    <option value="Maharashtra">Maharashtra</option>
+                    <option value="Rajasthan">Rajasthan</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Vendor Cards Grid -->
+        <div class="vendor-cards-grid" id="vendor-cards-container">
+            <!-- Dynamic Vendor Cards Populated by JS -->
+        </div>
+    </div>
+</main>
+
+<!-- POST CROP HARVEST MODAL -->
+<div class="modal-backdrop" id="post-crop-modal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3><i class="fas fa-seedling"></i> List Your Crop Harvest for Direct Sale</h3>
+            <button class="close-btn" onclick="closePostModal()">&times;</button>
+        </div>
+        <form id="post-crop-form" onsubmit="handlePostCropSubmit(event)">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Farmer Name *</label>
+                    <input type="text" id="farmer-name" required placeholder="e.g. Ramesh Kumar" />
+                </div>
+                <div class="form-group">
+                    <label>Contact Phone Number *</label>
+                    <input type="tel" id="farmer-phone" required placeholder="e.g. 9876543210" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Crop / Commodity *</label>
+                    <select id="farmer-crop" required>
+                        <option value="Wheat (गेहूं)">Wheat (गेहूं)</option>
+                        <option value="Paddy / Rice (धान / चावल)">Paddy / Rice (धान / चावल)</option>
+                        <option value="Soybean (सोयाबीन)">Soybean (सोयाबीन)</option>
+                        <option value="Mustard (सरसों)">Mustard (सरसों)</option>
+                        <option value="Maize (मक्का)">Maize (मक्का)</option>
+                        <option value="Chana / Chickpea (चना)">Chana / Chickpea (चना)</option>
+                        <option value="Onion (प्याज)">Onion (प्याज)</option>
+                        <option value="Potato (आलू)">Potato (आलू)</option>
+                        <option value="Organic Vegetables">Organic Vegetables</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Quality Grade *</label>
+                    <select id="farmer-grade" required>
+                        <option value="Grade A (Premium)">Grade A (Premium)</option>
+                        <option value="100% Organic certified">100% Organic Certified</option>
+                        <option value="Standard Fair Quality">Standard Fair Quality (FAQ)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Quantity Available *</label>
+                    <input type="text" id="farmer-qty" required placeholder="e.g. 80 Quintals / 8 Tons" />
+                </div>
+                <div class="form-group">
+                    <label>Expected Price (₹ per Quintal) *</label>
+                    <input type="number" id="farmer-price" required placeholder="e.g. 2450" />
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Location (Village, District, State) *</label>
+                    <input type="text" id="farmer-location" required placeholder="e.g. Sehore, Madhya Pradesh" />
+                </div>
+                <div class="form-group">
+                    <label>Harvest Date / Availability *</label>
+                    <input type="text" id="farmer-date" required placeholder="e.g. Ready for immediate loading" />
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Crop Description / Special Notes</label>
+                <textarea id="farmer-desc" rows="3" placeholder="e.g. Dry, clean grain, low moisture content. Moisture test report available."></textarea>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closePostModal()">Cancel</button>
+                <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Publish Crop Listing</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- DIRECT CONTACT VENDOR MODAL -->
+<div class="modal-backdrop" id="contact-vendor-modal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3 id="modal-vendor-title"><i class="fas fa-building"></i> Vendor Details</h3>
+            <button class="close-btn" onclick="closeContactModal()">&times;</button>
+        </div>
+        <div class="modal-body" id="modal-vendor-body">
+            <!-- Filled dynamically by marketplace.js -->
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="footer-content">
+        <div class="footer-logo">
+            <img src="/logo1.jpg" alt="AgriSmart Logo" onerror="this.src='../logo1.jpg'" />
+            <p>Empowering Indian Farmers with Direct Mandi Rates & Direct Vendor Access.</p>
+        </div>
+        <div class="footer-links">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="/mai/inde.html">Home</a></li>
+                <li><a href="/Description/description.html">Crop Descriptions</a></li>
+                <li><a href="/marketplace/marketplace.html">Marketplace</a></li>
+                <li><a href="/SIH Website/expert.html">Expert Consultation</a></li>
+                <li><a href="/environment/environment.html">Environment & Weather</a></li>
+            </ul>
+        </div>
+        <div class="footer-contact">
+            <h4>Direct Farmer Support</h4>
+            <p><i class="fas fa-phone"></i> Kisan Helpline: 1800-180-1551</p>
+            <p><i class="fas fa-envelope"></i> Support: support@agrismart.org</p>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2026 AgriSmart. Zero Middleman Direct Farmer Market.</p>
+    </div>
+</footer>
+
+<script src="marketplace.js"></script>
+</body>
+</html>

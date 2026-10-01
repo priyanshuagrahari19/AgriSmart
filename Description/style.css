@@ -379,38 +379,54 @@ body {
 }
 
 @media screen and (max-width: 780px) {
-  .navbar li a[data-title]:hover::after {
-    content: attr(data-title);
-    position: absolute;
-    top: 120%;
-    left: 50%;
-    color: white;
-    transform: translateX(-50%);
-    background-color: #151515;
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-size: 14px;
-    white-space: nowrap;
-    z-index: 10;
-    transition: all 0.5s;
+  .container {
+    height: auto;
+    padding: 10px;
   }
-  .user-profile a[data-title]:hover::after {
-    content: attr(data-title);
-    position: absolute;
-    top: 120%;
-    left: 50%;
-    color: white;
-    transform: translateX(-50%);
-    background-color: #151515;
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-size: 14px;
-    white-space: nowrap;
-    z-index: 10;
-    transition: all 0.5s;
+  .header {
+    height: auto;
+    flex-direction: column;
+    gap: 10px;
   }
-
+  .navbar ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+  .navbar li a {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  .search {
+    width: 80%;
+  }
+  .grid-item {
+    width: 90%;
+    margin: 15px auto;
+    height: auto;
+    padding: 20px 15px;
+  }
+  .main-content {
+    padding: 15px 10px;
+  }
   .navbar li a span {
-    display: none;
+    display: inline-block;
+  }
+}
+
+@media screen and (max-width: 480px) {
+  .logo img {
+    width: 60px;
+    height: auto;
+  }
+  .navbar li a {
+    font-size: 11px;
+    padding: 4px 6px;
+  }
+  .grid-item img {
+    width: 40px !important;
+  }
+  .search_box {
+    font-size: 12px;
   }
 }

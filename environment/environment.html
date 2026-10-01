@@ -1,23 +1,23 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AgriSmart</title>
+    <title>AgriSmart - Farm Environment Monitoring</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="environment.css">
 </head>
 <body>
-
 
 <div class="navbar-container">
   <div class="wrapper">
     <header class="header">
       <!-- Logo -->
       <div class="logo">
-        <img src="logo1.jpg" alt="Logo" />
+        <a href="../mai/inde.html">
+          <img src="../logo1.jpg" alt="AgriSmart Logo" onerror="this.src='/logo1.jpg'" style="height: 50px; width: auto; object-fit: contain; border-radius: 6px;" />
+        </a>
       </div>
 
       <!-- Navigation Menu -->
@@ -31,6 +31,11 @@
           <li>
             <a href="/Description/description.html">
               <i class="fas fa-circle-info"></i><span>Description</span>
+            </a>
+          </li>
+          <li>
+            <a href="/marketplace/marketplace.html">
+              <i class="fas fa-store"></i><span>Marketplace</span>
             </a>
           </li>
           <li>
@@ -59,7 +64,7 @@
 
       <!-- User Profile Icons -->
       <div class="user-profile">
-        <a href="#"><i class="fas fa-comment-dots"></i></a>
+        <a href="/chatbot/chat.html"><i class="fas fa-comment-dots"></i></a>
         <a href="#"><i class="fas fa-globe"></i></a>
         <a href="#"><i class="fas fa-user-circle"></i></a>
       </div>
@@ -67,47 +72,137 @@
   </div>
 </div>
 
+<main class="main-content">
+    <h1>Farm Environment Monitoring</h1>
+    
+    <!-- Location Bar -->
+    <div class="location-bar">
+        <div class="location-info">
+            <i class="fas fa-location-dot"></i>
+            <span id="current-location-text">Detecting location...</span>
+        </div>
+        <form class="location-search-form" onsubmit="handleCitySearch(event)">
+            <input type="text" id="city-search-input" class="location-search-input" placeholder="Search City / District..." />
+            <button type="submit" class="loc-btn"><i class="fas fa-search"></i> Search</button>
+            <button type="button" class="loc-btn" onclick="detectGPSLocation()"><i class="fas fa-crosshairs"></i> GPS</button>
+        </form>
+    </div>
 
-    <main class="main-content">
-        <h1>Farm Environment Monitoring</h1>
-        
-        <div class="dashboard-container">
+    <div class="dashboard-container">
+        <!-- Left: Live Weather & Sensors -->
+        <div class="left-panel" style="display:flex; flex-direction:column; gap:25px;">
+            <!-- Local Weather Card -->
             <div class="card local-weather">
-                <div class="card-title">Local Weather</div>
+                <div class="card-title" style="display:flex; justify-content:space-between; align-items:center;">
+                    <span>Local Weather</span>
+                    <span id="weather-time" style="font-size:12px; color:#777; font-weight:normal;">Live</span>
+                </div>
+                
                 <div class="weather-icon">
-                    <img src="https://cdn-icons-png.flaticon.com/512/1163/1163661.png" alt="Cloudy with sun">
+                    <img id="weather-condition-icon" src="https://cdn-icons-png.flaticon.com/512/1163/1163661.png" alt="Weather Icon" style="width:100px; height:auto;">
                 </div>
 
                 <div class="weather-details">
-                    <p>Current Temperature: <strong>28°C</strong></p>
-                    <p>Humidity: <strong>65%</strong></p>
-                    <p>Wind Speed: <strong>15 km/h</strong></p>
-                    <p>Conditions: <strong>Sunny with light clouds</strong></p>
+                    <p>Current Temperature: <strong id="temp-val">--°C</strong></p>
+                    <p>Humidity: <strong id="humidity-val">--%</strong></p>
+                    <p>Wind Speed: <strong id="wind-val">-- km/h</strong></p>
+                    <p>Conditions: <strong id="condition-val">Loading weather...</strong></p>
                 </div>
-                <div class="weather-forecast">
+
+                <div class="weather-forecast" style="margin-top:20px;">
                     <div class="forecast-item">
                         <i class="fas fa-temperature-low icon"></i>
-                        <span>5°C</span>
+                        <span id="min-temp-val">--°C</span>
                     </div>
                     <div class="forecast-item">
                         <i class="fas fa-temperature-high icon"></i>
-                        <span>27°C</span>
+                        <span id="max-temp-val">--°C</span>
                     </div>
                     <div class="forecast-item">
-                        <i class="fas fa-tint icon"></i>
-                        <span>31%</span>
+                        <i class="fas fa-cloud-rain icon"></i>
+                        <span id="rain-chance-val">--%</span>
                     </div>
                     <div class="forecast-item">
-                        <i class="fas fa-wind icon"></i>
-                        <span>3 km/h</span>
+                        <i class="fas fa-sun icon"></i>
+                        <span id="uv-val">UV --</span>
                     </div>
                 </div>
-                <button class="view-forecast-btn">View Detailed Forecast</button>
+
+                <button class="view-forecast-btn" onclick="openForecastModal()">View 7-Day Detailed Forecast</button>
             </div>
 
+            <!-- Farm Soil & Environmental Sensors Card -->
+            <div class="card farm-sensors">
+                <div class="card-title">Soil & Environmental Sensors</div>
+                <div class="sensor-grid">
+                    <div class="sensor-card">
+                        <i class="fas fa-droplet"></i>
+                        <div class="val" id="sensor-moisture">42%</div>
+                        <div class="lbl">Soil Moisture</div>
+                    </div>
+                    <div class="sensor-card">
+                        <i class="fas fa-temperature-quarter"></i>
+                        <div class="val" id="sensor-soil-temp">24°C</div>
+                        <div class="lbl">Soil Temp</div>
+                    </div>
+                    <div class="sensor-card">
+                        <i class="fas fa-sun"></i>
+                        <div class="val" id="sensor-radiation">4.8</div>
+                        <div class="lbl">UV Index</div>
+                    </div>
+                    <div class="sensor-card">
+                        <i class="fas fa-wind"></i>
+                        <div class="val" id="sensor-aqi">Good</div>
+                        <div class="lbl">Air Quality</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Smart Agri Advisory Box -->
+            <div class="card smart-advisories">
+                <div class="card-title">Today's Smart Farming Advisory</div>
+                <div class="advisory-container">
+                    <div class="advisory-card" id="adv-irrigation">
+                        <i class="fas fa-shower adv-icon"></i>
+                        <div>
+                            <h4>Irrigation Advisory</h4>
+                            <p id="adv-irrigation-text">Analyzing soil & rainfall data...</p>
+                        </div>
+                    </div>
+                    <div class="advisory-card" id="adv-spray">
+                        <i class="fas fa-spray-can-sparkles adv-icon"></i>
+                        <div>
+                            <h4>Pesticide Spraying</h4>
+                            <p id="adv-spray-text">Checking wind speed & humidity...</p>
+                        </div>
+                    </div>
+                    <div class="advisory-card" id="adv-disease">
+                        <i class="fas fa-bug adv-icon"></i>
+                        <div>
+                            <h4>Fungal / Pest Risk</h4>
+                            <p id="adv-disease-text">Calculating climate risk levels...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right: Threats & Alerts -->
+        <div class="right-panel">
             <div class="card ecological-threats">
-                <div class="card-title">Ecological Threats & Alerts</div>
-                <div id="alerts-container">
+                <div class="card-title" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                    <span>Ecological Threats & Alerts</span>
+                </div>
+                
+                <!-- Filter Tabs -->
+                <div class="filter-tabs" style="margin-top:15px;">
+                    <button class="filter-tab active" onclick="filterAlerts('all', this)">All</button>
+                    <button class="filter-tab" onclick="filterAlerts('critical', this)">Critical</button>
+                    <button class="filter-tab" onclick="filterAlerts('warning', this)">Warnings</button>
+                    <button class="filter-tab" onclick="filterAlerts('info', this)">Info</button>
+                </div>
+
+                <div id="alerts-container" style="margin-top:15px;">
                     <div style="text-align: center; padding: 20px;">
                         <i class="fas fa-spinner fa-spin" style="font-size: 24px; color: #388e3c;"></i>
                         <p style="margin-top: 10px;">Loading alerts...</p>
@@ -115,63 +210,304 @@
                 </div>
             </div>
         </div>
-    </main>
+    </div>
+</main>
 
-    <script>
-        async function loadAlerts() {
-            try {
-                const res = await fetch("/api/alerts");
-                const alerts = await res.json();
-                const container = document.getElementById("alerts-container");
-                container.innerHTML = "";
+<!-- 7-Day Forecast Modal -->
+<div class="modal-overlay" id="forecast-modal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h2><i class="fas fa-calendar-days"></i> 7-Day Detailed Weather Forecast</h2>
+            <button class="close-modal-btn" onclick="closeForecastModal()">&times;</button>
+        </div>
+        <p style="font-size:14px; color:#666; margin-bottom:15px;" id="modal-subheading">7-day weather trends and precipitation probabilities.</p>
+        <div class="daily-forecast-grid" id="modal-forecast-list">
+            <!-- Dynamically populated -->
+        </div>
+    </div>
+</div>
 
-                if (alerts.length === 0) {
-                    container.innerHTML = `
-                        <div class="alert-item success">
-                            <div class="icon">
-                                <i class="fas fa-shield-alt"></i>
-                            </div>
-                            <div class="content">
-                                <h3>No active threats reported.</h3>
-                            </div>
-                        </div>
-                    `;
-                    return;
-                }
+<script>
+    let currentLat = 20.5937; // Default India (Nagpur / Central India)
+    let currentLon = 78.9629;
+    let locationName = "Nagpur, India";
+    let allAlertsData = [];
+    let dailyWeatherData = null;
 
-                alerts.forEach(a => {
-                    let alertClass = "success";
-                    let alertIcon = "fa-info-circle";
-                    if (a.severity === "critical") {
-                        alertClass = "risk";
-                        alertIcon = "fa-exclamation-triangle";
-                    } else if (a.severity === "warning") {
-                        alertClass = "warning";
-                        alertIcon = "fa-exclamation-circle";
-                    } else if (a.severity === "info") {
-                        alertClass = "success";
-                        alertIcon = "fa-shield-alt";
-                    }
-
-                    container.innerHTML += `
-                        <div class="alert-item ${alertClass}" style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 15px; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
-                            <div class="icon" style="font-size: 20px;">
-                                <i class="fas ${alertIcon}"></i>
-                            </div>
-                            <div class="content" style="text-align: left;">
-                                <h3 style="margin: 0 0 5px 0; font-size: 16px;">${a.title}</h3>
-                                <p style="margin: 0; font-size: 14px; color: #555;">${a.description}</p>
-                            </div>
-                        </div>
-                    `;
-                });
-            } catch (err) {
-                console.error(err);
-                document.getElementById("alerts-container").innerHTML = "<p style='text-align:center; color:red;'>Failed to load environmental alerts.</p>";
-            }
-        }
+    async function initEnvironmentPage() {
+        detectGPSLocation();
         loadAlerts();
-    </script>
+    }
+
+    function detectGPSLocation() {
+        document.getElementById("current-location-text").innerText = "Detecting GPS location...";
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                async (pos) => {
+                    currentLat = pos.coords.latitude;
+                    currentLon = pos.coords.longitude;
+                    locationName = `GPS (${currentLat.toFixed(2)}°, ${currentLon.toFixed(2)}°)`;
+                    document.getElementById("current-location-text").innerText = locationName;
+                    fetchLiveWeather(currentLat, currentLon);
+                },
+                (err) => {
+                    console.log("GPS access denied/failed, falling back to Delhi/Nagpur");
+                    locationName = "New Delhi, India (Default)";
+                    currentLat = 28.6139;
+                    currentLon = 77.2090;
+                    document.getElementById("current-location-text").innerText = locationName;
+                    fetchLiveWeather(currentLat, currentLon);
+                }
+            );
+        } else {
+            fetchLiveWeather(currentLat, currentLon);
+        }
+    }
+
+    async function handleCitySearch(e) {
+        e.preventDefault();
+        const city = document.getElementById("city-search-input").value.trim();
+        if (!city) return;
+
+        document.getElementById("current-location-text").innerText = `Searching '${city}'...`;
+        try {
+            const geoRes = await fetch(`https://geocoding-api.open-meteo.com/v1/search?name=${encodeURIComponent(city)}&count=1&language=en&format=json`);
+            const geoData = await geoRes.json();
+            if (geoData.results && geoData.results.length > 0) {
+                const res = geoData.results[0];
+                currentLat = res.latitude;
+                currentLon = res.longitude;
+                locationName = `${res.name}, ${res.country || ''}`;
+                document.getElementById("current-location-text").innerText = locationName;
+                fetchLiveWeather(currentLat, currentLon);
+            } else {
+                alert("City not found. Please try another city or district name.");
+                document.getElementById("current-location-text").innerText = locationName;
+            }
+        } catch (err) {
+            console.error(err);
+            alert("Error searching location.");
+        }
+    }
+
+    async function fetchLiveWeather(lat, lon) {
+        try {
+            const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,relative_humidity_2m,weather_code,wind_speed_10m&daily=weather_code,temperature_2m_max,temperature_2m_min,precipitation_probability_max,uv_index_max&timezone=auto`;
+            const response = await fetch(url);
+            const data = await response.json();
+            
+            dailyWeatherData = data.daily;
+            const current = data.current;
+
+            // Temperature & humidity
+            document.getElementById("temp-val").innerText = `${Math.round(current.temperature_2m)}°C`;
+            document.getElementById("humidity-val").innerText = `${current.relative_humidity_2m}%`;
+            document.getElementById("wind-val").innerText = `${Math.round(current.wind_speed_10m)} km/h`;
+            
+            const condText = getWeatherDescription(current.weather_code);
+            document.getElementById("condition-val").innerText = condText;
+            document.getElementById("weather-condition-icon").src = getWeatherIcon(current.weather_code);
+
+            // Daily min/max & rain chance
+            if (data.daily) {
+                document.getElementById("min-temp-val").innerText = `${Math.round(data.daily.temperature_2m_min[0])}°C`;
+                document.getElementById("max-temp-val").innerText = `${Math.round(data.daily.temperature_2m_max[0])}°C`;
+                document.getElementById("rain-chance-val").innerText = `${data.daily.precipitation_probability_max[0]}%`;
+                
+                const uvVal = data.daily.uv_index_max ? Math.round(data.daily.uv_index_max[0]) : 5;
+                document.getElementById("uv-val").innerText = `UV ${uvVal}`;
+                document.getElementById("sensor-radiation").innerText = `${uvVal}`;
+                
+                // Estimate soil moisture based on humidity & rain
+                const estimatedMoisture = Math.min(95, Math.max(25, Math.round((current.relative_humidity_2m * 0.6) + (data.daily.precipitation_probability_max[0] * 0.4))));
+                document.getElementById("sensor-moisture").innerText = `${estimatedMoisture}%`;
+                document.getElementById("sensor-soil-temp").innerText = `${Math.round(current.temperature_2m - 2)}°C`;
+            }
+
+            // Generate Smart Agricultural Advisories
+            generateAgriAdvisories(current.temperature_2m, current.relative_humidity_2m, current.wind_speed_10m, data.daily.precipitation_probability_max[0]);
+
+        } catch (err) {
+            console.error("Error fetching weather:", err);
+            document.getElementById("condition-val").innerText = "Weather unavailable";
+        }
+    }
+
+    function generateAgriAdvisories(temp, humidity, wind, rainProb) {
+        // Irrigation Advisory
+        const irrCard = document.getElementById("adv-irrigation");
+        const irrText = document.getElementById("adv-irrigation-text");
+        if (rainProb > 50) {
+            irrCard.className = "advisory-card caution";
+            irrText.innerText = `High chance of rain (${rainProb}%). Hold off irrigation to prevent waterlogging.`;
+        } else if (humidity < 40 && temp > 30) {
+            irrCard.className = "advisory-card warning";
+            irrText.innerText = `High evaporation rate (Temp ${temp}°C, Humidity ${humidity}%). Irrigate crops today.`;
+        } else {
+            irrCard.className = "advisory-card";
+            irrText.innerText = `Soil & climate conditions optimal. Regular irrigation schedule recommended.`;
+        }
+
+        // Spraying Advisory
+        const sprayCard = document.getElementById("adv-spray");
+        const sprayText = document.getElementById("adv-spray-text");
+        if (wind > 16) {
+            sprayCard.className = "advisory-card warning";
+            sprayText.innerText = `Wind speed is high (${Math.round(wind)} km/h). Avoid chemical spraying to prevent drift.`;
+        } else if (rainProb > 60) {
+            sprayCard.className = "advisory-card caution";
+            sprayText.innerText = `Rain likely today (${rainProb}%). Postpone foliar sprays to prevent wash-off.`;
+        } else {
+            sprayCard.className = "advisory-card";
+            sprayText.innerText = `Calm winds (${Math.round(wind)} km/h) & low rain chance. Ideal window for pesticide spraying.`;
+        }
+
+        // Fungal / Pest Risk
+        const disCard = document.getElementById("adv-disease");
+        const disText = document.getElementById("adv-disease-text");
+        if (humidity > 75 && temp >= 22 && temp <= 32) {
+            disCard.className = "advisory-card warning";
+            disText.innerText = `High humidity (${humidity}%) & warm temp (${temp}°C). Elevated risk of Fungal Blight in crops.`;
+        } else {
+            disCard.className = "advisory-card";
+            disText.innerText = `Fungal infection risk is low. Maintain regular field crop surveillance.`;
+        }
+    }
+
+    function getWeatherDescription(code) {
+        if (code === 0) return "Clear Sunny Sky";
+        if (code >= 1 && code <= 3) return "Partly Cloudy";
+        if (code >= 45 && code <= 48) return "Foggy Conditions";
+        if (code >= 51 && code <= 67) return "Rainy Showers";
+        if (code >= 80 && code <= 82) return "Heavy Rain Showers";
+        if (code >= 95) return "Thunderstorm";
+        return "Sunny with Clouds";
+    }
+
+    function getWeatherIcon(code) {
+        if (code === 0) return "https://cdn-icons-png.flaticon.com/512/869/869869.png";
+        if (code >= 1 && code <= 3) return "https://cdn-icons-png.flaticon.com/512/1163/1163661.png";
+        if (code >= 51 && code <= 82) return "https://cdn-icons-png.flaticon.com/512/1163/1163657.png";
+        if (code >= 95) return "https://cdn-icons-png.flaticon.com/512/1146/1146860.png";
+        return "https://cdn-icons-png.flaticon.com/512/1163/1163661.png";
+    }
+
+    // Modal Functions
+    function openForecastModal() {
+        const modal = document.getElementById("forecast-modal");
+        const list = document.getElementById("modal-forecast-list");
+        document.getElementById("modal-subheading").innerText = `7-Day trend forecast for ${locationName}`;
+        list.innerHTML = "";
+
+        if (dailyWeatherData && dailyWeatherData.time) {
+            dailyWeatherData.time.forEach((t, i) => {
+                const dateObj = new Date(t);
+                const dayName = i === 0 ? "Today" : dateObj.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+                const maxT = Math.round(dailyWeatherData.temperature_2m_max[i]);
+                const minT = Math.round(dailyWeatherData.temperature_2m_min[i]);
+                const rainP = dailyWeatherData.precipitation_probability_max[i] || 0;
+                
+                list.innerHTML += `
+                    <div class="forecast-day-row">
+                        <div style="font-weight:600; color:#333;">${dayName}</div>
+                        <div><i class="fas fa-temperature-high" style="color:#e65100;"></i></div>
+                        <div>
+                            <div style="display:flex; justify-content:space-between; font-size:12px; margin-bottom:4px;">
+                                <span>Rain Chance: <strong>${rainP}%</strong></span>
+                                <span>${minT}°C - ${maxT}°C</span>
+                            </div>
+                            <div class="rain-bar-bg">
+                                <div class="rain-bar-fill" style="width:${rainP}%;"></div>
+                            </div>
+                        </div>
+                        <div style="text-align:right; font-weight:bold; color:#2e7d32;">${maxT}°C / ${minT}°C</div>
+                    </div>
+                `;
+            });
+        } else {
+            list.innerHTML = "<p style='text-align:center; padding:20px;'>Detailed forecast loading...</p>";
+        }
+
+        modal.classList.add("active");
+    }
+
+    function closeForecastModal() {
+        document.getElementById("forecast-modal").classList.remove("active");
+    }
+
+    // Database Alerts API & Filter
+    async function loadAlerts() {
+        try {
+            const res = await fetch("/api/alerts");
+            allAlertsData = await res.json();
+            renderAlerts(allAlertsData);
+        } catch (err) {
+            console.error(err);
+            document.getElementById("alerts-container").innerHTML = "<p style='text-align:center; color:red;'>Failed to load environmental alerts.</p>";
+        }
+    }
+
+    function renderAlerts(alertsList) {
+        const container = document.getElementById("alerts-container");
+        container.innerHTML = "";
+
+        if (alertsList.length === 0) {
+            container.innerHTML = `
+                <div class="alert-item success" style="padding:15px; border-radius:8px; display:flex; align-items:center; gap:12px;">
+                    <div class="icon" style="font-size:24px; color:#388e3c;">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div class="content">
+                        <h3 style="margin:0; font-size:15px;">No active threats reported.</h3>
+                        <p style="margin:2px 0 0 0; font-size:13px; color:#666;">Your farm area is clear of ecological warnings.</p>
+                    </div>
+                </div>
+            `;
+            return;
+        }
+
+        alertsList.forEach(a => {
+            let alertClass = "success";
+            let alertIcon = "fa-info-circle";
+            if (a.severity === "critical") {
+                alertClass = "risk";
+                alertIcon = "fa-exclamation-triangle";
+            } else if (a.severity === "warning") {
+                alertClass = "warning";
+                alertIcon = "fa-exclamation-circle";
+            } else if (a.severity === "info") {
+                alertClass = "success";
+                alertIcon = "fa-shield-alt";
+            }
+
+            container.innerHTML += `
+                <div class="alert-item ${alertClass}" style="margin-bottom: 12px; display: flex; align-items: flex-start; gap: 15px; padding: 15px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+                    <div class="icon" style="font-size: 22px;">
+                        <i class="fas ${alertIcon}"></i>
+                    </div>
+                    <div class="content" style="text-align: left;">
+                        <h3 style="margin: 0 0 5px 0; font-size: 15px;">${a.title}</h3>
+                        <p style="margin: 0; font-size: 13px; color: #555;">${a.description}</p>
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    function filterAlerts(category, btn) {
+        document.querySelectorAll(".filter-tab").forEach(t => t.classList.remove("active"));
+        btn.classList.add("active");
+
+        if (category === "all") {
+            renderAlerts(allAlertsData);
+        } else {
+            const filtered = allAlertsData.filter(a => a.severity === category);
+            renderAlerts(filtered);
+        }
+    }
+
+    initEnvironmentPage();
+</script>
 
 </body>
 </html>

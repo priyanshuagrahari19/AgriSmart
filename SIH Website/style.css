@@ -383,41 +383,54 @@ body {
 }
 
 @media screen and (max-width: 780px) {
-  .navbar li a[data-title]:hover::after {
-    content: attr(data-title);
-    position: absolute;
-    top: 120%;
-    left: 50%;
-    color: white;
-    transform: translateX(-50%);
-    background-color: #151515;
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-size: 14px;
-    white-space: nowrap;
-    z-index: 10;
-    transition: all 0.5s;
+  .navbar-container {
+    height: auto;
+    padding: 10px;
   }
-  .user-profile a[data-title]:hover::after {
-    content: attr(data-title);
-    position: absolute;
-    top: 120%;
-    left: 50%;
-    color: white;
-    transform: translateX(-50%);
-    background-color: #151515;
-    padding: 8px 12px;
-    border-radius: 4px;
-    font-size: 14px;
-    white-space: nowrap;
-    z-index: 10;
-    transition: all 0.5s;
+  .header {
+    height: auto;
+    flex-direction: column;
+    gap: 10px;
   }
-
-  .navbar li a span {
-    display: none;
+  .navbar ul {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 8px;
+  }
+  .navbar li a {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+  .search {
+    width: 80%;
+  }
+  .expert_content .wrapper {
+    flex-direction: column;
+    align-items: center;
+  }
+  .expert_content .card {
+    width: 90%;
+    margin: 10px auto;
+  }
+  .expert_user .user {
+    width: 95%;
+    margin: 10px auto;
   }
 }
+
+@media screen and (max-width: 480px) {
+  .logo img {
+    width: 90px;
+  }
+  .navbar li a {
+    font-size: 11px;
+    padding: 4px 6px;
+  }
+  .expert_content .h1 {
+    font-size: 1.8rem;
+  }
+}
+
 .card a{
   text-decoration: none;
 }

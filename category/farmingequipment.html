@@ -3,207 +3,153 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Farming Equipment Gallery</title>
+  <title>AgriSmart - Farming Equipment & Machinery</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
-    @import url("https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap");
-
-:root {
-  --primary-color: #388e3c;
-  --background-color: #f0f2f5;
-  --text-color: #333;
-  --light-text-color: #ccc;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-body {
-  font-family: "Roboto", sans-serif;
-}
-
-/* Navbar Container */
-.navbar-container {
-  width: 100%;
-  height: 80px;
-  background-color: #2e7d32;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  padding: 0 20px;
-  display: flex;
-  align-items: center;
-}
-
-/* Navbar Wrapper */
-.wrapper {
-  width: 100%;
-}
-
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  height: 80px;
-}
-
-/* Logo */
-.logo img {
-  width: 120px;
-  height: auto;
-  object-fit: contain;
-  border-radius: 10px;
-}
-
-/* Navbar Menu */
-.navbar ul {
-  list-style: none;
-  display: flex;
-  gap: 15px;
-}
-
-.navbar li a {
-  text-decoration: none;
-  font-weight: 500;
-  color: white; /* default white */
-  padding: 8px 12px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  font-size: 14px;
-  transition: all 0.3s ease;
-}
-
-/* Hover effect for all links */
-.navbar li a:hover {
-  background: rgba(255, 255, 255, 0.15);
-  color: #ffeb3b; /* yellow */
-}
-
-/* Home (active link) - stays white by default */
-.navbar li a.active {
-  color: white;
-  font-weight: bold;
-}
-
-/* Home (active) hover -> turns yellow */
-.navbar li a.active:hover {
-  color: #ffeb3b;
-}
-
-/* Search Box */
-.search {
-  display: flex;
-  align-items: center;
-  background: white;
-  border-radius: 20px;
-  padding: 5px 10px;
-}
-
-.search_box {
-  border: none;
-  outline: none;
-  padding: 5px;
-}
-
-.search_icon {
-  color: #2e7d32;
-  margin-left: 5px;
-}
-
-/* User Profile Icons */
-.user-profile {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.user-profile a {
-  font-size: 1.2rem;
-  color: white;
-  transition: color 0.3s;
-}
-
-.user-profile a:hover {
-  color: #ffeb3b;
-}
-
-
-    /* Gallery layout */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Poppins', sans-serif;
+    }
+    body {
+      background-color: #f4f7f6;
+      color: #333;
+    }
+    .navbar-container {
+      background-color: #ffffff;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    .wrapper {
+      max-width: 1300px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 75px;
+    }
+    .logo img {
+      height: 50px;
+      width: auto;
+      object-fit: contain;
+    }
+    .navbar ul {
+      display: flex;
+      list-style: none;
+      gap: 15px;
+    }
+    .navbar a {
+      text-decoration: none;
+      color: #444;
+      font-weight: 500;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+    .navbar a:hover, .navbar a.active {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      font-weight: 600;
+    }
+    .search {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+    .search_box {
+      padding: 9px 35px 9px 15px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      font-size: 13px;
+      width: 200px;
+    }
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .user-profile a {
+      color: #2e7d32;
+      font-size: 18px;
+    }
     .equipment-gallery {
       display: grid;
-      grid-template-columns: repeat(3, 1fr); /* 3 cards per row */
-      gap: 20px;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 30px;
       max-width: 1200px;
       margin: 30px auto;
       padding: 0 20px;
     }
-
     .card {
-      background: #fff;
-      border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      background: #ffffff;
+      border-radius: 14px;
       overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      transition: transform 0.3s ease;
       text-align: center;
-      transition: transform 0.3s, box-shadow 0.3s;
+      padding: 20px;
+      border: 1px solid #e0e0e0;
     }
-
     .card:hover {
       transform: translateY(-5px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      box-shadow: 0 8px 25px rgba(46, 125, 50, 0.12);
     }
-
     .card img {
       width: 100%;
-      height: 200;
-      object-fit: cover;
-      border-bottom: 1px solid #ddd;
+      height: 180px;
+      object-fit: contain;
+      margin-bottom: 15px;
+      border-radius: 8px;
     }
-
+    .card a {
+      text-decoration: none;
+      color: inherit;
+    }
     .caption {
-      padding: 12px;
       font-size: 16px;
-      font-weight: bold;
-      color: #2d572c;
+      font-weight: 600;
+      color: #1b5e20;
     }
-
-    /* Responsive: 1 column for small screens */
     @media (max-width: 768px) {
-      .navbar {
+      .header {
         flex-direction: column;
-        align-items: flex-start;
+        height: auto;
+        padding: 15px 0;
+        gap: 15px;
       }
-
-      .search-container {
-        margin: 10px 0;
-        width: 100%;
-      }
-
-      .search-input {
-        width: 80%;
-      }
-
       .equipment-gallery {
         grid-template-columns: 1fr;
       }
     }
   </style>
 </head>
+<body>
+
 <div class="navbar-container">
   <div class="wrapper">
     <header class="header">
       <!-- Logo -->
       <div class="logo">
-        <img src="resource image/logo1.jpg" alt="Logo" />
+        <a href="../mai/inde.html">
+          <img src="../logo1.jpg" alt="AgriSmart Logo" onerror="this.src='/logo1.jpg'" style="height: 50px; width: auto; object-fit: contain; border-radius: 6px;" />
+        </a>
       </div>
 
       <!-- Navigation Menu -->
       <nav class="navbar">
         <ul>
           <li>
-            <a href="/mai/inde.html" class="active">
+            <a href="/mai/inde.html">
               <i class="fas fa-home"></i><span>Home</span>
             </a>
           </li>
@@ -213,12 +159,17 @@ body {
             </a>
           </li>
           <li>
+            <a href="/marketplace/marketplace.html">
+              <i class="fas fa-store"></i><span>Marketplace</span>
+            </a>
+          </li>
+          <li>
             <a href="/SIH Website/expert.html">
               <i class="fas fa-user"></i><span>Expert</span>
             </a>
           </li>
           <li>
-            <a href="/category/category.html">
+            <a href="/category/category.html" class="active">
               <i class="fas fa-flask"></i><span>Resources</span>
             </a>
           </li>
@@ -232,58 +183,64 @@ body {
 
       <!-- Search -->
       <div class="search">
-        <input type="text" class="search_box" placeholder="Search" />
+        <input type="text" class="search_box" placeholder="Search equipment..." />
         <i class="fas fa-search search_icon"></i>
       </div>
 
       <!-- User Profile Icons -->
       <div class="user-profile">
-        <a href="#"><i class="fas fa-comment-dots"></i></a>
+        <a href="/chatbot/chat.html"><i class="fas fa-comment-dots"></i></a>
         <a href="#"><i class="fas fa-globe"></i></a>
-        <a href="#"><i class="fas fa-user-circle"></i></a>
+        <a href="/login.html"><i class="fas fa-user-circle"></i></a>
       </div>
     </header>
   </div>
 </div>
 
-  <!-- Equipment Gallery -->
-  <h1 style="text-align:center; color:#2d572c; margin-top: 20px;">Farming Equipment</h1>
-  <div class="equipment-gallery" id="gallery">
-    <div style="text-align: center; width: 100%; grid-column: span 3; padding: 40px 0;">
-      <i class="fas fa-spinner fa-spin" style="font-size: 30px; color: #2e7d32;"></i>
-      <p style="margin-top: 10px;">Loading equipment...</p>
-    </div>
+<!-- Equipment Gallery -->
+<h1 style="text-align:center; color:#1b5e20; margin-top: 30px;">🚜 Farming Equipment & Machinery</h1>
+<p style="text-align:center; color:#555; margin-bottom: 25px;">Modern mechanized tools and heavy equipment for efficient farming</p>
+
+<div class="equipment-gallery" id="gallery">
+  <div class="card">
+    <a href="axe.html">
+      <img src="resource image/axe.jpg" alt="Hand Axe & Cutter">
+      <div class="caption">Hand Axe & Heavy Cutter Tool<br><span style="color:#e65100; font-size:14px; font-weight:bold;">₹450</span></div>
+    </a>
   </div>
 
-  <script>
-    async function loadProducts() {
-      try {
-        const res = await fetch('/api/products?category=equipment');
-        const products = await res.json();
-        const gallery = document.getElementById('gallery');
-        gallery.innerHTML = '';
-        
-        if (products.length === 0) {
-          gallery.innerHTML = '<p style="text-align:center; grid-column: span 3;">No farming equipment available currently.</p>';
-          return;
-        }
+  <div class="card">
+    <a href="grasscutter.html">
+      <img src="resource image/grass cutter.jpg" alt="Grass Cutter Machine">
+      <div class="caption">Petrol Engine Grass / Brush Cutter<br><span style="color:#e65100; font-size:14px; font-weight:bold;">₹8,900</span></div>
+    </a>
+  </div>
 
-        products.forEach(p => {
-          gallery.innerHTML += `
-            <div class="card">
-              <a href="detail.html?id=${p.id}">
-                <img src="${p.image_url}" alt="${p.name}">
-                <div class="caption">${p.name}<br><span style="color:#e65100; font-size:14px;">₹${p.price}</span></div>
-              </a>
-            </div>
-          `;
-        });
-      } catch (err) {
-        console.error(err);
-        document.getElementById('gallery').innerHTML = '<p style="text-align:center; grid-column: span 3; color:red;">Failed to load products. Make sure server is running.</p>';
-      }
-    }
-    loadProducts();
-  </script>
+  <div class="card">
+    <a href="plough.html">
+      <img src="resource image/plough.jpg" alt="Tractor Plough">
+      <div class="caption">Iron Tractor Cultivator Plough (हल)<br><span style="color:#e65100; font-size:14px; font-weight:bold;">₹24,500</span></div>
+    </a>
+  </div>
+
+  <div class="card">
+    <a href="seeddrill.html">
+      <img src="resource image/seed drill.jpg" alt="Automatic Seed Drill">
+      <div class="caption">Automatic Multi-Crop Seed Drill Machine<br><span style="color:#e65100; font-size:14px; font-weight:bold;">₹32,000</span></div>
+    </a>
+  </div>
+
+  <div class="card">
+    <a href="sprayer.html">
+      <img src="resource image/sprinker.jpg" alt="Agri Water Sprayer">
+      <div class="caption">Battery Powered Agri Sprayer Pump<br><span style="color:#e65100; font-size:14px; font-weight:bold;">₹3,450</span></div>
+    </a>
+  </div>
+</div>
+
+<footer style="text-align: center; padding: 25px; margin-top: 50px; color: #666; font-size: 14px; border-top: 1px solid #ddd;">
+  &copy; 2026 AgriSmart Farming Equipment. All rights reserved.
+</footer>
+
 </body>
 </html>

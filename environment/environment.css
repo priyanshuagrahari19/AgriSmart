@@ -273,16 +273,322 @@ h1 {
     color: var(--gray-dark);
 }
 
+/* Location Search Bar */
+.location-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 12px;
+    box-shadow: var(--box-shadow);
+    margin-bottom: 25px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.location-info {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #2e7d32;
+}
+
+.location-search-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.location-search-input {
+    padding: 8px 15px;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    outline: none;
+    font-size: 14px;
+    width: 200px;
+}
+
+.loc-btn {
+    padding: 8px 15px;
+    background: #2e7d32;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 500;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    transition: background 0.3s;
+}
+
+.loc-btn:hover {
+    background: #1b5e20;
+}
+
+/* Sensor & Advisory Cards */
+.sensor-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.sensor-card {
+    background: #f9fbf9;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+}
+
+.sensor-card i {
+    font-size: 24px;
+    color: #388e3c;
+    margin-bottom: 8px;
+}
+
+.sensor-card .val {
+    font-size: 20px;
+    font-weight: 700;
+    color: #222;
+    margin: 4px 0;
+}
+
+.sensor-card .lbl {
+    font-size: 13px;
+    color: #666;
+}
+
+/* Advisory Box */
+.advisory-container {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 15px;
+}
+
+.advisory-card {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 15px;
+    border-radius: 8px;
+    background: #fff;
+    border-left: 4px solid #388e3c;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.04);
+}
+
+.advisory-card.caution {
+    border-left-color: #f57c00;
+}
+
+.advisory-card.warning {
+    border-left-color: #d32f2f;
+}
+
+.advisory-card .adv-icon {
+    font-size: 20px;
+    color: #388e3c;
+    margin-top: 2px;
+}
+
+.advisory-card.caution .adv-icon {
+    color: #f57c00;
+}
+
+.advisory-card.warning .adv-icon {
+    color: #d32f2f;
+}
+
+.advisory-card h4 {
+    margin: 0 0 3px 0;
+    font-size: 15px;
+    color: #222;
+}
+
+.advisory-card p {
+    margin: 0;
+    font-size: 13px;
+    color: #555;
+}
+
+/* Alert Filter Tabs */
+.filter-tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 15px;
+    flex-wrap: wrap;
+}
+
+.filter-tab {
+    padding: 6px 14px;
+    border-radius: 20px;
+    background: #eee;
+    border: none;
+    cursor: pointer;
+    font-size: 13px;
+    font-weight: 500;
+    color: #555;
+    transition: all 0.2s;
+}
+
+.filter-tab.active {
+    background: #2e7d32;
+    color: white;
+}
+
+/* Modal Overlay & 7-Day Forecast */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    padding: 20px;
+}
+
+.modal-overlay.active {
+    display: flex;
+}
+
+.modal-box {
+    background: #fff;
+    width: 100%;
+    max-width: 700px;
+    max-height: 85vh;
+    overflow-y: auto;
+    border-radius: 15px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #eee;
+    padding-bottom: 10px;
+}
+
+.modal-header h2 {
+    color: #2e7d32;
+    font-size: 20px;
+    margin: 0;
+}
+
+.close-modal-btn {
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #777;
+    cursor: pointer;
+}
+
+.daily-forecast-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.forecast-day-row {
+    display: grid;
+    grid-template-columns: 100px 40px 1fr 100px;
+    align-items: center;
+    gap: 15px;
+    padding: 10px 15px;
+    background: #f9fbf9;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.rain-bar-bg {
+    background: #e0e0e0;
+    height: 8px;
+    border-radius: 4px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.rain-bar-fill {
+    background: #1e88e5;
+    height: 100%;
+}
+
 @media (max-width: 992px) {
     .dashboard-container {
         grid-template-columns: 1fr;
     }
+}
 
-    .navbar .nav-links {
-        display: none;
+@media (max-width: 768px) {
+    .navbar-container {
+        height: auto;
+        padding: 10px;
     }
+    .header {
+        height: auto;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .navbar ul {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 8px;
+    }
+    .navbar li a {
+        padding: 6px 10px;
+        font-size: 13px;
+    }
+    .main-content {
+        padding: 15px 10px;
+    }
+    h1 {
+        font-size: 22px;
+        margin-bottom: 15px;
+    }
+    .card {
+        padding: 18px 12px;
+    }
+    .location-bar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .location-search-form {
+        flex-direction: column;
+    }
+    .location-search-input {
+        width: 100%;
+    }
+    .forecast-day-row {
+        grid-template-columns: 80px 30px 1fr 70px;
+        font-size: 12px;
+        gap: 8px;
+    }
+}
 
-    .navbar .profile-icon {
-        font-size: 20px;
+@media (max-width: 480px) {
+    .logo img {
+        width: 90px;
+    }
+    .navbar li a {
+        font-size: 11px;
+        padding: 4px 6px;
+    }
+    .search_box {
+        width: 110px;
+        font-size: 12px;
     }
 }

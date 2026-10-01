@@ -3,26 +3,27 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>AgriSmart - Seeds Gallery</title>
   <link rel="stylesheet" href="c.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
- 
 
 <div class="navbar-container">
   <div class="wrapper">
     <header class="header">
       <!-- Logo -->
       <div class="logo">
-        <img src="resource image/logo1.jpg" alt="Logo" />
+        <a href="../mai/inde.html">
+          <img src="../logo1.jpg" alt="AgriSmart Logo" onerror="this.src='/logo1.jpg'" style="height: 50px; width: auto; object-fit: contain; border-radius: 6px;" />
+        </a>
       </div>
 
       <!-- Navigation Menu -->
       <nav class="navbar">
         <ul>
           <li>
-            <a href="/mai/inde.html" class="active">
+            <a href="/mai/inde.html">
               <i class="fas fa-home"></i><span>Home</span>
             </a>
           </li>
@@ -32,12 +33,17 @@
             </a>
           </li>
           <li>
+            <a href="/marketplace/marketplace.html">
+              <i class="fas fa-store"></i><span>Marketplace</span>
+            </a>
+          </li>
+          <li>
             <a href="/SIH Website/expert.html">
               <i class="fas fa-user"></i><span>Expert</span>
             </a>
           </li>
           <li>
-            <a href="/category/category.html">
+            <a href="/category/category.html" class="active">
               <i class="fas fa-flask"></i><span>Resources</span>
             </a>
           </li>
@@ -51,59 +57,98 @@
 
       <!-- Search -->
       <div class="search">
-        <input type="text" class="search_box" placeholder="Search" />
+        <input type="text" class="search_box" placeholder="Search seeds..." />
         <i class="fas fa-search search_icon"></i>
       </div>
 
       <!-- User Profile Icons -->
       <div class="user-profile">
-        <a href="#"><i class="fas fa-comment-dots"></i></a>
+        <a href="/chatbot/chat.html"><i class="fas fa-comment-dots"></i></a>
         <a href="#"><i class="fas fa-globe"></i></a>
-        <a href="#"><i class="fas fa-user-circle"></i></a>
+        <a href="/login.html"><i class="fas fa-user-circle"></i></a>
       </div>
     </header>
   </div>
 </div>
 
+<h1 style="text-align:center; color:#1b5e20; margin: 30px 0 10px 0;">🌾 High-Yield Seeds Gallery</h1>
+<p style="text-align:center; color:#555; margin-bottom: 25px;">Select high-germination hybrid and organic seeds for your farm</p>
 
-    
+<div class="image-gallery" id="gallery">
+  <div class="card">
+    <a href="maze.html">
+      <img src="resource image/maze.jpg" alt="Maize Seeds">
+      <div class="caption">Maize / Corn Seeds (मक्का)<br><span style="color:#e65100; font-size:14px; font-weight:bold;">₹450 / 5kg</span></div>
+    </a>
   </div>
-  <div class="image-gallery" id="gallery">
-    <div style="text-align: center; width: 100%; grid-column: span 3; padding: 40px 0;">
-      <i class="fas fa-spinner fa-spin" style="font-size: 30px; color: #388e3c;"></i>
-      <p style="margin-top: 10px;">Loading seeds...</p>
-    </div>
+
+  <div class="card">
+    <a href="moong.html">
+      <img src="resource image/moong.jpg" alt="Moong Seeds">
+      <div class="caption">Moong / Green Gram Seeds (मूंग)<br><span style="color:#e65100; font-size:14px; font-weight:bold;">₹380 / 2kg</span></div>
+    </a>
   </div>
 
-  <script>
-    async function loadProducts() {
-      try {
-        const res = await fetch('/api/products?category=seeds');
-        const products = await res.json();
-        const gallery = document.getElementById('gallery');
-        gallery.innerHTML = '';
-        
-        if (products.length === 0) {
-          gallery.innerHTML = '<p style="text-align:center; grid-column: span 3;">No seed products available currently.</p>';
-          return;
-        }
+  <div class="card">
+    <a href="millet.html">
+      <img src="resource image/millet.jpg" alt="Millet Seeds">
+      <div class="caption">Millet / Bajra Seeds (बाजरा)<br><span style="color:#e65100; font-size:14px; font-weight:bold;">₹320 / 3kg</span></div>
+    </a>
+  </div>
 
-        products.forEach(p => {
-          gallery.innerHTML += `
-            <div class="card">
-              <a href="detail.html?id=${p.id}">
-                <img src="${p.image_url}" alt="${p.name}">
-                <div class="caption">${p.name}<br><span style="color:#e65100; font-size:14px;">₹${p.price}</span></div>
-              </a>
-            </div>
-          `;
-        });
-      } catch (err) {
-        console.error(err);
-        document.getElementById('gallery').innerHTML = '<p style="text-align:center; grid-column: span 3; color:red;">Failed to load products. Make sure server is running.</p>';
-      }
-    }
-    loadProducts();
-  </script>
+  <div class="card">
+    <a href="onion.html">
+      <img src="resource image/onion.jpg" alt="Onion Seeds">
+      <div class="caption">Red Onion Seeds (प्याज बीज)<br><span style="color:#e65100; font-size:14px; font-weight:bold;">₹650 / 500g</span></div>
+    </a>
+  </div>
+
+  <div class="card">
+    <a href="potato.html">
+      <img src="resource image/potatosteam.jpg" alt="Potato Seeds">
+      <div class="caption">Seed Potato Tubers (आलू बीज)<br><span style="color:#e65100; font-size:14px; font-weight:bold;">₹850 / 50kg</span></div>
+    </a>
+  </div>
+
+  <div class="card">
+    <a href="rice1.html">
+      <img src="resource image/rice.jpg" alt="Paddy Rice Seeds">
+      <div class="caption">Paddy / Rice Seeds (धान)<br><span style="color:#e65100; font-size:14px; font-weight:bold;">₹720 / 10kg</span></div>
+    </a>
+  </div>
+
+  <div class="card">
+    <a href="seaseme.html">
+      <img src="resource image/seaseme.jpg" alt="Sesame Seeds">
+      <div class="caption">Sesame / Til Seeds (तिल)<br><span style="color:#e65100; font-size:14px; font-weight:bold;">₹290 / 1kg</span></div>
+    </a>
+  </div>
+
+  <div class="card">
+    <a href="soyabean.html">
+      <img src="resource image/soyabean.jpg" alt="Soybean Seeds">
+      <div class="caption">Yellow Soybean Seeds (सोयाबीन)<br><span style="color:#e65100; font-size:14px; font-weight:bold;">₹1,450 / 30kg</span></div>
+    </a>
+  </div>
+
+  <div class="card">
+    <a href="sugercane.html">
+      <img src="resource image/sugercanestem.jpg" alt="Sugarcane Sets">
+      <div class="caption">High Sugar Sugarcane Sets (गन्ना)<br><span style="color:#e65100; font-size:14px; font-weight:bold;">₹1,200 / Quintal</span></div>
+    </a>
+  </div>
+
+  <div class="card">
+    <a href="urad.html">
+      <img src="resource image/urad.jpg" alt="Urad Seeds">
+      <div class="caption">Urad / Black Gram Seeds (उड़द)<br><span style="color:#e65100; font-size:14px; font-weight:bold;">₹410 / 2kg</span></div>
+    </a>
+  </div>
+</div>
+
+<footer style="text-align: center; padding: 25px; margin-top: 50px; color: #666; font-size: 14px; border-top: 1px solid #ddd;">
+  &copy; 2026 AgriSmart Seeds Gallery.
+</footer>
+
 </body>
 </html>

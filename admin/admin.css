@@ -166,35 +166,29 @@ body {
 
     /* Responsive Design */
     @media (max-width: 768px) {
-      .navbar ul {
-        display: none;
+      .navbar-container {
+        height: auto;
+        padding: 10px;
+      }
+      .header {
+        height: auto;
         flex-direction: column;
-        width: 100%;
-        background: #fff;
-        position: absolute;
-        top: 60px;
-        left: 0;
-        border-top: 1px solid #ddd;
-        box-shadow: 0px 2px 5px rgba(0,0,0,0.1);
+        gap: 10px;
       }
-
-      .navbar ul.show {
-        display: flex;
+      .search {
+        max-width: 100%;
+        margin: 5px 0;
       }
-
-      .menu-toggle {
-        display: block;
+      .container {
+        padding: 15px 10px;
       }
-
-      .logout-btn {
-        margin-top: 10px;
-      }
-
       .main-flex {
         flex-direction: column;
       }
-
       table {
-        font-size: 14px;
+        font-size: 13px;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
       }
     }

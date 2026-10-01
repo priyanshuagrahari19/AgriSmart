@@ -5,25 +5,25 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AgriSmart - Farm Resources Marketplace</title>
   <link rel="stylesheet" href="category.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-
-  
 
 <div class="navbar-container">
   <div class="wrapper">
     <header class="header">
       <!-- Logo -->
       <div class="logo">
-        <img src="resource image/logo1.jpg" alt="Logo" />
+        <a href="../mai/inde.html">
+          <img src="../logo1.jpg" alt="AgriSmart Logo" onerror="this.src='/logo1.jpg'" style="height: 50px; width: auto; object-fit: contain; border-radius: 6px;" />
+        </a>
       </div>
 
       <!-- Navigation Menu -->
       <nav class="navbar">
         <ul>
           <li>
-            <a href="/mai/inde.html" class="active">
+            <a href="/mai/inde.html">
               <i class="fas fa-home"></i><span>Home</span>
             </a>
           </li>
@@ -33,12 +33,17 @@
             </a>
           </li>
           <li>
+            <a href="/marketplace/marketplace.html">
+              <i class="fas fa-store"></i><span>Marketplace</span>
+            </a>
+          </li>
+          <li>
             <a href="/SIH Website/expert.html">
               <i class="fas fa-user"></i><span>Expert</span>
             </a>
           </li>
           <li>
-            <a href="/category/category.html">
+            <a href="/category/category.html" class="active">
               <i class="fas fa-flask"></i><span>Resources</span>
             </a>
           </li>
@@ -52,52 +57,59 @@
 
       <!-- Search -->
       <div class="search">
-        <input type="text" class="search_box" placeholder="Search" />
+        <input type="text" class="search_box" placeholder="Search resources..." />
         <i class="fas fa-search search_icon"></i>
       </div>
 
       <!-- User Profile Icons -->
       <div class="user-profile">
-        <a href="#"><i class="fas fa-comment-dots"></i></a>
+        <a href="/chatbot/chat.html"><i class="fas fa-comment-dots"></i></a>
         <a href="#"><i class="fas fa-globe"></i></a>
-        <a href="#"><i class="fas fa-user-circle"></i></a>
+        <a href="/login.html"><i class="fas fa-user-circle"></i></a>
       </div>
     </header>
   </div>
 </div>
 
+<!-- Main Content -->
+<div class="container">
+  <h1>Farm Resources Marketplace</h1>
+  <p style="text-align: center; color: #666; margin-bottom: 30px;">Explore seeds, crop saplings, fertilizers, and farming machinery available for farmers.</p>
 
-  <!-- Main Content -->
-  <div class="container">
-    <h1>Farm Resources Marketplace</h1>
-    
-    <div class="grid">
-       
-      <div class="card">
-        <img src="resource image/plant-under-sun.png" alt="Seeds">
-        <h3>Seeds</h3>
-        <p>Browse various crop seeds</p>
-        <a href="c.html" target="_blank" class="btn">View Products</a>
-      </div>
+  <div class="grid">
+    <div class="card">
+      <img src="resource image/plant-under-sun.png" alt="Seeds">
+      <h3>Seeds</h3>
+      <p>Browse various high-yield crop seeds</p>
+      <a href="c.html" class="btn">View Products</a>
+    </div>
 
-      <div class="card">
-        <img src="https://img.icons8.com/color/48/sprout.png" alt="Young Plants">
-        <h3>Young Plants &amp; Crops</h3>
-        <p>Trice, plants & crop growth</p>
-        <a href="young-plants.html" target="_blank" class="btn">View Products</a>
-      </div>
+    <div class="card">
+      <img src="resource image/sprout.png" alt="Young Plants" onerror="this.src='resource image/potted-plant.png'">
+      <h3>Young Plants &amp; Crops</h3>
+      <p>Trees, saplings &amp; crop growth starters</p>
+      <a href="plants.html" class="btn">View Products</a>
+    </div>
 
-       
-      <div class="card">
-        <img src="resource image/fertilizers.png" alt="Chemicals">
-        <h3>Chemicals/Fertilizer</h3>
-        <p>Boost crop growth &amp; protection</p>
-        <a href="fertilizers.html" target="_blank" class="btn">View Products</a>
-      </div>
+    <div class="card">
+      <img src="resource image/fertilizers.png" alt="Chemicals & Fertilizers">
+      <h3>Chemicals / Fertilizers</h3>
+      <p>Boost crop growth &amp; pest protection</p>
+      <a href="fertilizers.html" class="btn">View Products</a>
+    </div>
 
-      <div class="card">
-        <img src="resource image/tractor.png" alt="Farming Equipment">
-        <h3>Farming Equipment</h3>
-        <p>Tools safely for the farm</p>
-         <a href="farmingequipment.html" target="_blank" class="btn">View Products</a>
+    <div class="card">
+      <img src="resource image/tractor.png" alt="Farming Equipment">
+      <h3>Farming Equipment</h3>
+      <p>Modern tools &amp; machinery for the farm</p>
+      <a href="farmingequipment.html" class="btn">View Products</a>
+    </div>
+  </div>
+</div>
 
+<footer style="text-align: center; padding: 25px; margin-top: 50px; color: #666; font-size: 14px; border-top: 1px solid #ddd;">
+  &copy; 2026 AgriSmart Farm Resources Marketplace. All rights reserved.
+</footer>
+
+</body>
+</html>
