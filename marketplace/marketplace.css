@@ -12,10 +12,10 @@ body {
     color: #333;
 }
 
-/* Header & Navbar Synchronization */
+/* Header & Navbar Synchronization - Green Theme Matching Site */
 .navbar-container {
-    background-color: #ffffff;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    background-color: #2e7d32;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.12);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -48,7 +48,7 @@ body {
 
 .navbar a {
     text-decoration: none;
-    color: #444;
+    color: #ffffff;
     font-weight: 500;
     font-size: 14px;
     display: flex;
@@ -61,24 +61,28 @@ body {
 
 .navbar a:hover,
 .navbar a.active {
-    background-color: #e8f5e9;
-    color: #2e7d32;
+    background-color: rgba(255, 255, 255, 0.18);
+    color: #ffeb3b;
     font-weight: 600;
 }
 
 .navbar a i {
     font-size: 16px;
+    color: inherit;
 }
 
 .search {
     position: relative;
     display: flex;
     align-items: center;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 2px 8px;
 }
 
 .search_box {
-    padding: 10px 40px 10px 15px;
-    border: 1px solid #ccc;
+    padding: 8px 35px 8px 12px;
+    border: none;
     border-radius: 20px;
     font-size: 13px;
     width: 220px;
@@ -87,14 +91,13 @@ body {
 
 .search_box:focus {
     outline: none;
-    border-color: #2e7d32;
-    width: 260px;
+    width: 250px;
 }
 
 .search_icon {
     position: absolute;
     right: 15px;
-    color: #777;
+    color: #2e7d32;
     cursor: pointer;
 }
 
@@ -105,13 +108,14 @@ body {
 }
 
 .user-profile a {
-    color: #2e7d32;
+    color: #ffffff;
     font-size: 20px;
-    transition: transform 0.2s ease;
+    transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .user-profile a:hover {
     transform: scale(1.15);
+    color: #ffeb3b;
 }
 
 /* Hero Banner */

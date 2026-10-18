@@ -26,7 +26,7 @@
   outline: none;
 }
 
-/* Three horizontal lines (bars) */
+/* Three horizontal lines (bars) - white across all pages */
 .hamburger-btn .bar {
   display: block;
   width: 26px;
@@ -34,18 +34,6 @@
   background-color: #ffffff;
   border-radius: 3px;
   transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out, background-color 0.3s ease;
-}
-
-/* In white-background navbars (e.g. marketplace) */
-.navbar-container.white-nav .hamburger-btn .bar,
-.navbar-container[style*="background-color: #ffffff"] .hamburger-btn .bar,
-body.marketplace-page .hamburger-btn .bar {
-  background-color: #2e7d32;
-}
-
-.navbar-container.white-nav .hamburger-btn:hover,
-body.marketplace-page .hamburger-btn:hover {
-  background: rgba(46, 125, 50, 0.1);
 }
 
 /* Animated 'X' Close icon when hamburger is active */
@@ -229,40 +217,6 @@ body.marketplace-page .hamburger-btn:hover {
     color: #ffeb3b !important;
     font-weight: 700 !important;
     border-left: 4px solid #ffeb3b !important;
-  }
-
-  /* --- White Nav Theme (Marketplace page) Overrides --- */
-  .navbar-container.white-nav,
-  body.marketplace-page .navbar-container {
-    background-color: #ffffff !important;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08) !important;
-  }
-
-  .navbar-container.white-nav .navbar,
-  body.marketplace-page .navbar-container .navbar {
-    background-color: #ffffff !important;
-    border: 1px solid #e0e0e0 !important;
-    border-top: 2px solid #2e7d32 !important;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1) !important;
-  }
-
-  .navbar-container.white-nav .navbar li a,
-  body.marketplace-page .navbar-container .navbar li a {
-    color: #333333 !important;
-    border-bottom: 1px solid #f0f0f0 !important;
-  }
-
-  .navbar-container.white-nav .navbar li a:hover,
-  .navbar-container.white-nav .navbar li a.active,
-  body.marketplace-page .navbar-container .navbar li a:hover,
-  body.marketplace-page .navbar-container .navbar li a.active {
-    background: #e8f5e9 !important;
-    color: #2e7d32 !important;
-  }
-
-  .navbar-container.white-nav .navbar li a.active,
-  body.marketplace-page .navbar-container .navbar li a.active {
-    border-left: 4px solid #2e7d32 !important;
   }
 }
 

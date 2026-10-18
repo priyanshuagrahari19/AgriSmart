@@ -1,131 +1,320 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AgriSmart Dashboard</title>
-    <link rel="stylesheet" href="style.css" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    />
-    <link rel="stylesheet" href="../nav-responsive.css">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AgriSmart - Crop Cultivation & Agronomy Descriptions</title>
+  <link rel="stylesheet" href="style.css" />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="../nav-responsive.css" />
 </head>
-  <body>
-    <div class="container">
-      <div class="wrapper">
-        <header class="header">
-          <div class="logo">
+<body>
+
+<!-- Header Navigation Bar -->
+<div class="navbar-container">
+  <div class="wrapper">
+    <header class="header">
+      <!-- Logo -->
+      <div class="logo">
         <a href="../mai/inde.html">
-          <img src="../logo1.jpg" alt="AgriSmart Logo" onerror="this.src='/logo1.jpg'" style="height: 50px; width: auto; object-fit: contain; border-radius: 6px;" />
+          <img
+            src="../logo1.jpg"
+            alt="AgriSmart Logo"
+            onerror="this.src='/logo1.jpg'"
+            style="height: 50px; width: auto; object-fit: contain; border-radius: 6px;"
+          />
         </a>
       </div>
-          <nav class="navbar">
-            <ul>
-              <li>
-                <a data-title="Home" href="/mai/inde.html" class="active"
-                  ><i class="fas fa-home" style="color: white;"></i><span style="color: white;">Home</span>
-                </a>
-              </li>
-              <li>
-                <a data-title="Description" href="/Description/description.html" 
-                  ><i class="fas fa-circle-info"></i> <span>Description</span>
-                </a>
-              </li>
-              <li>
-                <a data-title="Marketplace" href="/marketplace/marketplace.html"
-                  ><i class="fas fa-store"></i> <span>Marketplace</span>
-                </a>
-              </li>
-              <li>
-                <a data-title="Expert Advisory" href="/SIH Website/expert.html"
-                  ><i class="fas fa-user"></i><span>Expert</span>
-                </a>
-              </li>
-              <li>
-                <a  data-title="Resources" href="/category/category.html" 
-                  ><i class="fas fa-flask"></i><span>Resources</span>
-                </a>
-              </li>
-              <li>
-                <a data-title="Environment" href="/environment/environment.html"
-                  ><i class="fas fa-seedling"></i> <span>Environment</span></a
-                >
-              </li>
-            </ul>
-          </nav>
-          <div class="search">
-            <input
-              type="text"
-              id="search_box"
-              class="search_box"
-              placeholder="Search"
-            />
-            <i class="fas fa-search search_icon"></i>
-          </div>
-          <div class="user-profile">
-            <a data-title="Assistant" href="#"
-              ><i class="fas fa-comment-dots"></i
-            ></a>
-            <a data-title="Language" href="#"
-              ><i class="fas fa-globe language"></i
-            ></a>
-            <a data-title="User" href="#"><i class="fas fa-user-circle"></i></a>
-          </div>
-              <!-- Mobile 3-Line Hamburger Menu Toggle -->
+
+      <!-- Navigation Menu -->
+      <nav class="navbar">
+        <ul>
+          <li>
+            <a href="/mai/inde.html">
+              <i class="fas fa-home"></i><span>Home</span>
+            </a>
+          </li>
+          <li>
+            <a href="/Description/description.html" class="active">
+              <i class="fas fa-circle-info"></i><span>Description</span>
+            </a>
+          </li>
+          <li>
+            <a href="/marketplace/marketplace.html">
+              <i class="fas fa-store"></i><span>Marketplace</span>
+            </a>
+          </li>
+          <li>
+            <a href="/SIH Website/expert.html">
+              <i class="fas fa-user"></i><span>Expert</span>
+            </a>
+          </li>
+          <li>
+            <a href="/category/category.html">
+              <i class="fas fa-flask"></i><span>Resources</span>
+            </a>
+          </li>
+          <li>
+            <a href="/environment/environment.html">
+              <i class="fas fa-seedling"></i><span>Environment</span>
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Search Box -->
+      <div class="search">
+        <input
+          type="text"
+          id="search_box"
+          class="search_box"
+          placeholder="Search crops, techniques..."
+        />
+        <i class="fas fa-search search_icon"></i>
+      </div>
+
+      <!-- User Profile Icons -->
+      <div class="user-profile">
+        <a href="/chatbot/chat.html" title="Agri AI Assistant"><i class="fas fa-comment-dots"></i></a>
+        <a href="#" title="Language Selection"><i class="fas fa-globe language"></i></a>
+        <a href="/login.html" title="User Profile"><i class="fas fa-user-circle"></i></a>
+      </div>
+
+      <!-- Mobile 3-Line Hamburger Menu Toggle -->
       <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Navigation Menu" aria-expanded="false">
         <span class="bar"></span>
         <span class="bar"></span>
         <span class="bar"></span>
       </button>
     </header>
-      </div>
-      <main class="main-content">
-        <div class="card">
-          <h2>Description</h2>
-          <div class="grid-container">
-            <div class="grid-item" data-section="soil">
-              <a href="soil.html">
-              <img src="image1/plant.png" alt="img" />
-              <p>Soil</p>
-              </a>
-            </div>
-            <div class="grid-item" data-section="kharif-crops">
-              <a href="kharif.html">
-              <img src="image1/crop.png" alt="img" />
-              <p>Kharif crops</p>
-              </a>
-            </div>
-            <div class="grid-item" data-section="rabi-crops">
-              <a href="rabi.html">
-              <img src="image1/wheat.png" alt="img" />
-              <p>Rabi crops</p>
-              </a>
-            </div>
-            <div class="grid-item" data-section="zaid-crop">
-              <a href="zaid.html">
-              <img src="image1/watermelon.png" alt="img" />
-              <p>Zaid crop</p>
-              </a>
-            </div>
-            <div class="grid-item" data-section="modern-techniques">
-              <a href="moder.html">
-              <img src="image1/technique.png" alt="img" />
-              <p>Modern techniques</p>
-              </a>
-            </div>
-          </div>
-        </div>
-      </main>
-    </div>
-    
-      <script>
-  function goToPage(path) {
-    window.location.href = path;
-  }
-</script>
+  </div>
+</div>
 
-   
-    <script src="../nav-responsive.js" defer></script>
+<!-- Main Content -->
+<main class="main-content">
+  <!-- Hero Banner -->
+  <div class="hero-banner">
+    <h1><i class="fas fa-book-open-reader"></i> Crop Descriptions & Agricultural Knowledge Hub</h1>
+    <p>
+      Discover comprehensive agronomic cultivation guides across Kharif (Monsoon), Rabi (Winter), and Zaid (Summer) seasons. Each crop provides 8 key farming parameters including watering, pH levels, sunlight, cultivation methods, and fertilization.
+    </p>
+  </div>
+
+  <!-- Section Header -->
+  <div class="section-title-wrap">
+    <h2>Explore Agricultural Sections</h2>
+    <p>Select any category below to access crop details, agronomic guidelines, soil management, and farmer welfare schemes.</p>
+  </div>
+
+  <!-- Category Grid -->
+  <div class="categories-grid">
+
+    <!-- Card 1: Kharif Crops -->
+    <div class="category-card">
+      <span class="card-header-badge"><i class="fas fa-cloud-showers-heavy"></i> Monsoon Season (June – Oct)</span>
+      <div class="card-img-container">
+        <img src="image1/kharif.jpg" alt="Kharif Crops" onerror="this.src='image1/crop.png'" />
+      </div>
+      <div class="card-body">
+        <h3>🌾 Kharif Crops (खरीफ फसलें)</h3>
+        <p>
+          Crops sown with the onset of the monsoon season. Adapted to warm weather, high rainfall, and humidity. Features complete guide on 9 major kharif crops with 8 parameter icons.
+        </p>
+        <div class="card-crops-tags">
+          <span class="crop-tag">Rice (चावल)</span>
+          <span class="crop-tag">Maize (मक्का)</span>
+          <span class="crop-tag">Soybean (सोयाबीन)</span>
+          <span class="crop-tag">Moong (मूंग)</span>
+          <span class="crop-tag">Onion (प्याज)</span>
+          <span class="crop-tag">+4 more</span>
+        </div>
+        <a href="kharif.html" class="card-action-btn">
+          Explore 9 Kharif Crops <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 2: Rabi Crops -->
+    <div class="category-card">
+      <span class="card-header-badge"><i class="fas fa-snowflake"></i> Winter Season (Oct – April)</span>
+      <div class="card-img-container">
+        <img src="image1/rabi.jpg" alt="Rabi Crops" onerror="this.src='image1/wheat.png'" />
+      </div>
+      <div class="card-body">
+        <h3>🌾 Rabi Crops (रबी फसलें)</h3>
+        <p>
+          Winter agricultural crops sown after the monsoon and harvested in spring. Thrives in cool weather and requires timely irrigation. Full details with 8 parameters for 9 rabi crops.
+        </p>
+        <div class="card-crops-tags">
+          <span class="crop-tag">Wheat (गेहूं)</span>
+          <span class="crop-tag">Mustard (सरसों)</span>
+          <span class="crop-tag">Gram / Chana (चना)</span>
+          <span class="crop-tag">Pea (मटर)</span>
+          <span class="crop-tag">Barley (जौ)</span>
+          <span class="crop-tag">+4 more</span>
+        </div>
+        <a href="rabi.html" class="card-action-btn">
+          Explore 9 Rabi Crops <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 3: Zaid Crops -->
+    <div class="category-card">
+      <span class="card-header-badge"><i class="fas fa-sun"></i> Summer Season (March – June)</span>
+      <div class="card-img-container">
+        <img src="image1/watermelon.jpg" alt="Zaid Crops" onerror="this.src='image1/watermelon.png'" />
+      </div>
+      <div class="card-body">
+        <h3>🍉 Zaid Crops (जायद फसलें)</h3>
+        <p>
+          Short-duration summer crops grown between Rabi harvest and Kharif sowing. High-value cucurbitaceous and drought-tolerant legumes with detailed cultivation parameters.
+        </p>
+        <div class="card-crops-tags">
+          <span class="crop-tag">Watermelon (तरबूज)</span>
+          <span class="crop-tag">Cucumber (खीरा)</span>
+          <span class="crop-tag">Pumpkin (कद्दू)</span>
+          <span class="crop-tag">Bitter Gourd (करेला)</span>
+          <span class="crop-tag">Cowpea (लोबिया)</span>
+          <span class="crop-tag">+4 more</span>
+        </div>
+        <a href="zaid.html" class="card-action-btn">
+          Explore 9 Zaid Crops <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 4: Soil Types -->
+    <div class="category-card">
+      <span class="card-header-badge"><i class="fas fa-mountain"></i> Soil Health & Classification</span>
+      <div class="card-img-container">
+        <img src="image1/Alluvial-Soil.jpg" alt="Soil Types" onerror="this.src='image1/plant.png'" />
+      </div>
+      <div class="card-body">
+        <h3>🪴 Soil Types & Management (मिट्टी के प्रकार)</h3>
+        <p>
+          In-depth guide to India's major agricultural soils: Alluvial, Black (Regur), Red, Laterite, Desert, and Mountain soils with crop suitability, pH levels, and fertility guidance.
+        </p>
+        <div class="card-crops-tags">
+          <span class="crop-tag">Alluvial Soil</span>
+          <span class="crop-tag">Black Cotton Soil</span>
+          <span class="crop-tag">Red & Yellow Soil</span>
+          <span class="crop-tag">pH & NPK Guide</span>
+        </div>
+        <a href="soil.html" class="card-action-btn">
+          View Soil Health Guide <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 5: Modern Techniques -->
+    <div class="category-card">
+      <span class="card-header-badge"><i class="fas fa-microchip"></i> Smart Agriculture</span>
+      <div class="card-img-container">
+        <img src="image1/precision.jpg" alt="Modern Techniques" onerror="this.src='image1/technique.png'" />
+      </div>
+      <div class="card-body">
+        <h3>🚜 Modern Farming Techniques (आधुनिक तकनीकें)</h3>
+        <p>
+          Next-generation farming innovations: Drip and micro-irrigation, climate-controlled polyhouses, hydroponic cultivation, drone spraying, and precision nutrient management.
+        </p>
+        <div class="card-crops-tags">
+          <span class="crop-tag">Drip Irrigation</span>
+          <span class="crop-tag">Polyhouse / Greenhouse</span>
+          <span class="crop-tag">Hydroponics</span>
+          <span class="crop-tag">Precision Ag</span>
+        </div>
+        <a href="moder.html" class="card-action-btn">
+          Explore Modern Methods <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+    <!-- Card 6: Government Schemes -->
+    <div class="category-card">
+      <span class="card-header-badge"><i class="fas fa-landmark"></i> Welfare & Subsidies</span>
+      <div class="card-img-container">
+        <img src="image1/farming.jpg" alt="Government Schemes" onerror="this.src='image1/logo1.jpg'" />
+      </div>
+      <div class="card-body">
+        <h3>🏛️ Government Schemes (सरकारी योजनाएं)</h3>
+        <p>
+          Key Central and State agricultural subsidy programs, PM-Kisan financial support, subsidized Kisan Credit Card (KCC) loans, PM Fasal Bima Yojana, and solar pump schemes.
+        </p>
+        <div class="card-crops-tags">
+          <span class="crop-tag">PM-KISAN</span>
+          <span class="crop-tag">KCC Credit Card</span>
+          <span class="crop-tag">Crop Insurance (PMFBY)</span>
+          <span class="crop-tag">Solar Pump Subsidy</span>
+        </div>
+        <a href="gov.html" class="card-action-btn">
+          View Government Schemes <i class="fas fa-arrow-right"></i>
+        </a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Standard 8 Parameters Feature Banner -->
+  <div class="parameters-banner">
+    <div class="parameters-banner-header">
+      <h3><i class="fas fa-circle-check" style="color: #2e7d32;"></i> Standardized 8 Parameters On Every Crop Page</h3>
+      <p>Every individual crop detail page contains these 8 green circular parameter icons alongside comprehensive cultivation guides:</p>
+    </div>
+
+    <div class="parameters-grid">
+      <div class="param-item">
+        <i class="fas fa-droplet"></i>
+        <h4>Watering</h4>
+        <span>Irrigation needs</span>
+      </div>
+      <div class="param-item">
+        <i class="fas fa-tractor"></i>
+        <h4>Cultivation</h4>
+        <span>Manual / Machine</span>
+      </div>
+      <div class="param-item">
+        <i class="fas fa-seedling"></i>
+        <h4>Harvesting</h4>
+        <span>Picking & Maturity</span>
+      </div>
+      <div class="param-item">
+        <i class="fas fa-users"></i>
+        <h4>Labour</h4>
+        <span>High / Med / Low</span>
+      </div>
+      <div class="param-item">
+        <i class="fas fa-sun"></i>
+        <h4>Sunlight</h4>
+        <span>Exposure & Hours</span>
+      </div>
+      <div class="param-item">
+        <i class="fas fa-flask"></i>
+        <h4>pH Value</h4>
+        <span>Optimal Soil pH</span>
+      </div>
+      <div class="param-item">
+        <i class="fas fa-temperature-high"></i>
+        <h4>Temperature</h4>
+        <span>°C Range for Yield</span>
+      </div>
+      <div class="param-item">
+        <i class="fas fa-vial"></i>
+        <h4>Fertilization</h4>
+        <span>NPK & Compost Ratios</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>&copy; 2026 AgriSmart - Dedicated to empowering Indian Farmers with Agronomic Knowledge & Fair Market Access.</p>
+  </footer>
+</main>
+
+<script src="../nav-responsive.js" defer></script>
 </body>
 </html>
