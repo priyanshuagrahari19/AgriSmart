@@ -7,11 +7,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="marketplace.css">
+  <link rel="stylesheet" href="../nav-responsive.css">
 </head>
 <body>
 
 <!-- Header Navigation Bar -->
-<div class="navbar-container">
+<div class="navbar-container white-nav">
   <div class="wrapper">
     <header class="header">
       <div class="logo">
@@ -65,6 +66,12 @@
         <a href="#" title="Language"><i class="fas fa-globe"></i></a>
         <a href="/login.html" title="User Profile"><i class="fas fa-user-circle"></i></a>
       </div>
+          <!-- Mobile 3-Line Hamburger Menu Toggle -->
+      <button class="hamburger-btn" id="hamburgerBtn" aria-label="Toggle Navigation Menu" aria-expanded="false">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
     </header>
   </div>
 </div>
@@ -134,8 +141,8 @@
                 <label><i class="fas fa-map-marker-alt"></i> Select State:</label>
                 <select id="mandi-state-select" onchange="filterMandiRates()">
                     <option value="all">All States (India)</option>
-                    <option value="Uttar Pradesh">Uttar Pradesh</option>
                     <option value="Madhya Pradesh" selected>Madhya Pradesh</option>
+                    <option value="Uttar Pradesh">Uttar Pradesh</option>
                     <option value="Punjab">Punjab</option>
                     <option value="Haryana">Haryana</option>
                     <option value="Rajasthan">Rajasthan</option>
@@ -144,6 +151,16 @@
                     <option value="Bihar">Bihar</option>
                     <option value="West Bengal">West Bengal</option>
                     <option value="Karnataka">Karnataka</option>
+                    <option value="Tamil Nadu">Tamil Nadu</option>
+                    <option value="Andhra Pradesh">Andhra Pradesh</option>
+                    <option value="Telangana">Telangana</option>
+                    <option value="Chhattisgarh">Chhattisgarh</option>
+                    <option value="Odisha">Odisha</option>
+                    <option value="Assam">Assam</option>
+                    <option value="Kerala">Kerala</option>
+                    <option value="Jharkhand">Jharkhand</option>
+                    <option value="Himachal Pradesh">Himachal Pradesh</option>
+                    <option value="Uttarakhand">Uttarakhand</option>
                 </select>
             </div>
 
@@ -386,5 +403,6 @@
 </footer>
 
 <script src="marketplace.js"></script>
+  <script src="../nav-responsive.js" defer></script>
 </body>
 </html>
